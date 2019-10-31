@@ -69,9 +69,9 @@ void updateZ(int low, int high, int dir)
     glPushMatrix();
     for (int i = low; i < high; i++)
     {
+        c[i].rot_z += c[i].now_z;
         c[i].now_z += 90.0 * (-dir);
         glRotatef(c[i].now_z, 0, 0, 1);
-        c[i].rot_z += 90.0 * (dir);
         c[i].nz = 99; //random nos to identify rotated face
     }
     glPopMatrix();
@@ -135,7 +135,7 @@ void rotationZ(int low, int high, int dir)
     int i;
     for (i = low; i < high; i++)
     {
-        c[i].now_z += dir * 5.0;
+        c[i].now_z += dir * 1.0;
         //glRotatef(c[i].rot_z, 0, 0, 1);
     }
     if ((c[high - 1].now_z % 90) == 0.0)
@@ -209,13 +209,7 @@ void drawcube(int i)
         glRotatef(c[i].now_x, 1, 0, 0);
     }
     
-    if(animate==1)
-    {
-        glRotatef(c[i].now_x, 1, 0, 0);
-        glRotatef(c[i].now_y, 0, 1, 0);
-        glRotatef(c[i].now_z, 0, 0, 1);
-    }
-
+    
     /*
     if (c[i].nz == 99 && animate == 0)
     {
