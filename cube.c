@@ -172,36 +172,22 @@ void drawcube(int i)
         glRotatef(c[i].rot_z, 0, 0, 1);
         glTranslatef(-c[i].x, -c[i].y, -c[i].z);
     }
-<<<<<<< HEAD
 
     if (c[i].ny == 99)
-=======
-    
-    if (c[i].ny == 99 )
->>>>>>> 11f7a3ec195e4b3724cb37cf257e88460739e041
     {
         glTranslatef(c[i].x, c[i].y, c[i].z);
         glRotatef(c[i].rot_y, 0, 1, 0);
         glTranslatef(-c[i].x, -c[i].y, -c[i].z);
     }
 
-<<<<<<< HEAD
     if (c[i].nx == 99)
-=======
-    if (c[i].nx == 99 )
->>>>>>> 11f7a3ec195e4b3724cb37cf257e88460739e041
     {
         glTranslatef(c[i].x, c[i].y, c[i].z);
         glRotatef(c[i].rot_x, 1, 0, 0);
         glTranslatef(-c[i].x, -c[i].y, -c[i].z);
     }
-<<<<<<< HEAD
 
     if (animate == 1)
-=======
-    
-    if(animate==1)
->>>>>>> 11f7a3ec195e4b3724cb37cf257e88460739e041
     {
         glRotatef(c[i].rot_x, 1, 0, 0);
         glRotatef(c[i].rot_y, 0, 1, 0);
