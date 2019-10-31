@@ -166,34 +166,35 @@ void drawcube(int i)
     glRotatef(20, 1, 0, 0);
     glRotatef(30, 0, 1, 0);
 
-    if (c[i].nz == 99 && animate == 0)
+    if (c[i].nz == 99)
+    {
+        glTranslatef(c[i].x, c[i].y, c[i].z);
+        glRotatef(c[i].rot_z, 0, 0, 1);
+        glTranslatef(-c[i].x, -c[i].y, -c[i].z);
+    }
+    
+    if (c[i].ny == 99 )
+    {
+        glTranslatef(c[i].x, c[i].y, c[i].z);
+        glRotatef(c[i].rot_y, 0, 1, 0);
+        glTranslatef(-c[i].x, -c[i].y, -c[i].z);
+    }
+
+    if (c[i].nx == 99 )
     {
         glTranslatef(c[i].x, c[i].y, c[i].z);
         glRotatef(c[i].rot_x, 1, 0, 0);
-        glRotatef(c[i].rot_y, 0, 1, 0);
-        glRotatef(c[i].rot_z, 0, 0, 1);
+        glTranslatef(-c[i].x, -c[i].y, -c[i].z);
     }
-    else if (c[i].ny == 99 && animate == 0)
-    {
-        glTranslatef(c[i].x, c[i].y, c[i].z);
-        glRotatef(c[i].rot_x, 1, 0, 0);
-        glRotatef(c[i].rot_y, 0, 1, 0);
-        glRotatef(c[i].rot_z, 0, 0, 1);
-    }
-    else if (c[i].nx == 99 && animate == 0)
-    {
-        glTranslatef(c[i].x, c[i].y, c[i].z);
-        glRotatef(c[i].rot_x, 1, 0, 0);
-        glRotatef(c[i].rot_y, 0, 1, 0);
-        glRotatef(c[i].rot_z, 0, 0, 1);
-    }
-    else
+    
+    if(animate==1)
     {
         glRotatef(c[i].rot_x, 1, 0, 0);
         glRotatef(c[i].rot_y, 0, 1, 0);
         glRotatef(c[i].rot_z, 0, 0, 1);
     }
 
+    /*
     if (c[i].nz == 99 && animate == 0)
     {
         glTranslatef(-c[i].x, -c[i].y, -c[i].z);
@@ -209,6 +210,7 @@ void drawcube(int i)
         glTranslatef(-c[i].x, -c[i].y, -c[i].z);
         c[i].nx = c[i].z;
     }
+    */
 
     glColor3fv(black);
     glBegin(GL_LINE_LOOP); //front face
