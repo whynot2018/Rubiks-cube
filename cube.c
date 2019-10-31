@@ -480,7 +480,7 @@ void keyboard_func(unsigned char key, int x, int y)
         min = 18;
         max = 27;
         dir = -1;
-        glutTimerFunc(0, timerz, 0);
+        //glutTimerFunc(0, timerz, 0);
         break;
 
     case 'F':
