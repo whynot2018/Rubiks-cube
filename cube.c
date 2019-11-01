@@ -88,8 +88,7 @@ void updateY(int low, int high)
         //  printf("y-before--->%d\t%d\t%d\t%d\n", i, c[i].rot_x, c[i].rot_y, c[i].rot_z);
         c[i].rot_y += c[i].now_y;
         c[i].now_y += 90 * (-dir);
-        glRotatef(c[i].now_y, 0, -1, 0);
-
+        glRotatef(c[i].now_y, 0, 1, 0);
         c[i].ny = 99;
         if (count % 3 != 0)
             i++;
@@ -135,7 +134,8 @@ void rotationZ(int low, int high, int dir)
     int i;
     for (i = low; i < high; i++)
     {
-        c[i].now_z += dir * 1.0;
+        c[i].now_z += dir * 2.0;
+        glRotatef(c[i].now_z, 0, 0, 1);
         //glRotatef(c[i].rot_z, 0, 0, 1);
     }
     if ((c[high - 1].now_z % 90) == 0.0)
@@ -149,7 +149,7 @@ void rotationY(int low, int high, int dir)
     for (i = low; i < high;)
     {
         // printf("y---->%d\t%f\t%f\t%f\t%d\n", i, c[i].x, c[i].y, c[i].z, c[i].rot_y);
-        c[i].now_y += dir * 1.0;
+        c[i].now_y += dir * 2.0;
         glRotatef(c[i].now_y, 0, 1, 0);
         if (count % 3 != 0)
             i++;
@@ -172,6 +172,7 @@ void drawcube(int i)
 
     if (c[i].nz == 99 && animate == 0)
     {
+
         glTranslatef(c[i].x, c[i].y, c[i].z);
         glRotatef(c[i].rot_z, 0, 0, 1);
         glTranslatef(-c[i].x, -c[i].y, -c[i].z);

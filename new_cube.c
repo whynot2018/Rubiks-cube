@@ -170,18 +170,20 @@ void rotationY(int low, int high, int dir)
 }
 */
 
-void update(int x, int y, int z)
+void update(struct rotate r[])
 {
     fillstruct();
     for (int i = 0; i < 27; i++)
     {
         if (c[i].z == 1)
         {
-            c[i].x = x;
-            c[i].y = y;
-            c[i].z = z;
+            c[i].x = r[i].x;
+            c[i].y = r[i].y;
+            c[i].z = 1;
+            printf("%d\t%f\t%f\t%f\n", i, c[i].x, c[i].y, c[i].z);
         }
     }
+    printf("------------\n");
 }
 
 void rotateZ()
@@ -194,13 +196,14 @@ void rotateZ()
             r[i].y = c[i].y;
             r[i].z = c[i].z;
 
-            glRotatef(90, 0, 0, 1);
-            glTranslatef(r[i].x, r[i].y, r[i].z);
+            //
+            glRotatef(-90, 0, 0, 1);
+            glTranslatef(r[i].x, r[i].y, 1);
             printf("%d\t%f\t%f\t%f\n", i, r[i].x, r[i].y, r[i].z);
-            update(r[i].x, r[i].y, r[i].z);
         }
     }
     printf("-----------------\n");
+    update(r);
 }
 //Drawing the single cube
 void drawcube(int i)
