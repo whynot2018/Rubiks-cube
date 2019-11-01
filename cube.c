@@ -68,11 +68,16 @@ void updateZ(int low, int high, int dir)
     glPushMatrix();
     for (int i = low; i < high; i++)
     {
+        
         c[i].rot_z += c[i].now_z;
+        
         c[i].now_z += 90.0 * (-dir);
         glRotatef(c[i].now_z, 0, 0, 1);
         c[i].nz = 99; //random nos to identify rotated face
+        
     }
+    printf("%d, %d\n", c[low].now_z, c[low].rot_z);
+    //printf("%f, %f\n", c[low].now_z, c[low].rot_z);
     glPopMatrix();
     glutPostRedisplay();
 }
@@ -107,7 +112,7 @@ void timerz(int value)
     {
         rotationZ(min, max, dir);
         glutPostRedisplay();
-        glutTimerFunc(25, timerz, 0);
+        glutTimerFunc(1000/60, timerz, 0);
     }
     else
     {
@@ -163,7 +168,18 @@ void rotationY(int low, int high, int dir)
             i += 7;
         count++;
     }
-    if ((c[high - 1].now_y % 90) == 0.0)
+    // for (i = low; i < high;)
+    // {
+    //     // printf("y---->%d\t%f\t%f\t%f\t%d\n", i, c[i].x, c[i].y, c[i].z, c[i].rot_y);
+    //     c[i].now_y += dir * 5.0;
+    //    // glRotatef(c[i].now_y, 0, 1, 0);
+    //     if (count % 3 != 0)
+    //         i++;
+    //     else
+    //         i += 7;
+    //     count++;
+    // }
+    if ((c[low].now_y % 90) == 0.0)
         animate = 0;
 }
 
@@ -173,37 +189,10 @@ void drawcube(int i)
     glLineWidth(5);
     glPushMatrix();
 
-    glRotatef(20, 1, 0, 0);
-    glRotatef(30, 0, 1, 0);
-
-    if (c[i].nz == 99 && animate == 0)
-    {
-        glTranslatef(c[i].x, c[i].y, c[i].z);
-        glRotatef(c[i].rot_z, 0, 0, 1);
-        glTranslatef(-c[i].x, -c[i].y, -c[i].z);
-    }
-    else
-    {
-        glTranslatef(c[i].x, c[i].y, c[i].z);
-        glRotatef(c[i].rot_z, 0, 0, 1);
-        glTranslatef(-c[i].x, -c[i].y, -c[i].z);
-        glRotatef(c[i].now_z, 0, 0, 1);
-    }
-
-    if (c[i].ny == 99 && animate == 0)
-    {
-        glTranslatef(c[i].x, c[i].y, c[i].z);
-        glRotatef(c[i].rot_y, 0, 1, 0);
-        glTranslatef(-c[i].x, -c[i].y, -c[i].z);
-    }
-    else
-    {
-        glTranslatef(c[i].x, c[i].y, c[i].z);
-        glRotatef(c[i].rot_y, 0, 1, 0);
-        glTranslatef(-c[i].x, -c[i].y, -c[i].z);
-        glRotatef(c[i].now_y, 0, 1, 0);
-    }
-
+    //glRotatef(20, 1, 0, 0);
+    //glRotatef(30, 0, 1, 0);
+   
+ 
     if (c[i].nx == 99 && animate == 0)
     {
         glTranslatef(c[i].x, c[i].y, c[i].z);
@@ -212,12 +201,47 @@ void drawcube(int i)
     }
     else
     {
+        //glPushMatrix();
         glTranslatef(c[i].x, c[i].y, c[i].z);
         glRotatef(c[i].rot_x, 1, 0, 0);
         glTranslatef(-c[i].x, -c[i].y, -c[i].z);
         glRotatef(c[i].now_x, 1, 0, 0);
     }
+
+      
+    if (c[i].ny == 99 && animate == 0)
+    {
+        glTranslatef(c[i].x, c[i].y, c[i].z);
+        glRotatef(c[i].rot_y, 0, 1, 0);
+        glTranslatef(-c[i].x, -c[i].y, -c[i].z);
+    }
+    else
+    {
+        // glTranslatef(c[i].x, c[i].y, c[i].z);
+        // glRotatef(c[i].rot_y, 0, 1, 0);
+        // glTranslatef(-c[i].x, -c[i].y, -c[i].z);
+        glRotatef(c[i].now_y, 0, 1, 0);
+    }
+
+     if (c[i].nz == 99 && animate == 0)
+    {
+        glTranslatef(c[i].x, c[i].y, c[i].z);
+        glRotatef(c[i].rot_z, 0, 0, 1);
+        glTranslatef(-c[i].x, -c[i].y, -c[i].z);
+    }
+    else
+    {
+        // glTranslatef(c[i].x, c[i].y, c[i].z);
+        // glRotatef(c[i].rot_z, 0, 0, 1);
+        // glTranslatef(-c[i].x, -c[i].y, -c[i].z);
+        glRotatef(c[i].now_z, 0, 0, 1);
+    }
+<<<<<<< HEAD
     //printf("%f\t%f\n", c[i].ny, c[i].nz);
+=======
+
+
+>>>>>>> 0474d63b5490be6b620054de4a2d5c63d8a3a9d4
     glColor3fv(black);
     glBegin(GL_LINE_LOOP); //front face
     glVertex3f(c[i].x - d / 2, c[i].y + d / 2, c[i].z - d / 2);
@@ -409,38 +433,41 @@ void keyboard_func(unsigned char key, int x, int y)
         break;
 
     case 'a':
-        glPushMatrix();
-        glLoadIdentity();
+        animate = 0;
+        //glPushMatrix();
+        //glLoadIdentity();
         ry = (ry - 30) % 360;
-        glRotatef(ry, 0, 1, 0);
-        glPopMatrix();
+        //glPopMatrix();
         break;
 
     case 'd':
-        glPushMatrix();
-        glLoadIdentity();
-        glTranslatef(0, 0, 0);
+        animate = 0;
+        //glPushMatrix();
+        //glLoadIdentity();
+        //glTranslatef(0, 0, 0);
         ry = (ry + 30) % 360;
-        glRotatef(ry, 0, 1, 0);
-        glPopMatrix();
+        //glRotatef(ry, 0, 1, 0);
+        //glPopMatrix();
         break;
 
     case 'w':
-        glPushMatrix();
-        glLoadIdentity();
-        glTranslatef(0, 0, 0);
+        animate = 0;
+        //glPushMatrix();
+        //glLoadIdentity();
+        //glTranslatef(0, 0, 0);
         rx = (rx - 30) % 360;
-        glRotatef(rx, 1, 0, 0);
-        glPopMatrix();
+        //glRotatef(rx, 1, 0, 0);
+        //glPopMatrix();
         break;
 
     case 's':
-        glPushMatrix();
-        glLoadIdentity();
-        glTranslatef(0, 0, 0);
+         animate = 0;
+        //glPushMatrix();
+        //glLoadIdentity();
+        //glTranslatef(0, 0, 0);
         rx = (rx + 30) % 360;
-        glRotatef(rx, 1, 0, 0);
-        glPopMatrix();
+        //glRotatef(rx, 1, 0, 0);
+        //glPopMatrix();
         break;
 
     case 'b':
