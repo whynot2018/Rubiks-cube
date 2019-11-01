@@ -25,6 +25,7 @@ struct cube
 struct rotate
 {
     float x, y, z;
+    int rot_z, rot_x, rot_y;
 };
 
 struct rotate r[9];
@@ -179,10 +180,11 @@ void update(struct rotate r[])
         {
             c[i].x = r[i].x;
             c[i].y = r[i].y;
-            c[i].z = 1;
+            c[i].z = r[i].z;
             printf("%d\t%f\t%f\t%f\n", i, c[i].x, c[i].y, c[i].z);
         }
     }
+    glutPostRedisplay();
     printf("------------\n");
 }
 
@@ -194,12 +196,12 @@ void rotateZ()
         {
             r[i].x = c[i].x;
             r[i].y = c[i].y;
-            r[i].z = c[i].z;
+            r[i].z = 1;
+            r[i].rot_z = 1;
 
-            //
-            glRotatef(-90, 0, 0, 1);
-            glTranslatef(r[i].x, r[i].y, 1);
-            printf("%d\t%f\t%f\t%f\n", i, r[i].x, r[i].y, r[i].z);
+            glRotatef(r[i].rot_z * 90, 0, 0, 1);
+            glTranslatef(r[i].x, r[i].y, r[i].z);
+            printf("%d\t%f\t%f\t%f\n", i, c[i].x, c[i].y, c[i].z);
         }
     }
     printf("-----------------\n");
@@ -488,6 +490,7 @@ void keyboard_func(unsigned char key, int x, int y)
         break;
 
     case 't':
+        rotateZ();
         // rotationY(6, 27, -1);
         min = 6;
         max = 27;

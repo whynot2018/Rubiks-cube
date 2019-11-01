@@ -49,9 +49,9 @@ void fillstruct()
                 c[count].x = x;
                 c[count].y = y;
                 c[count].z = z;
-                c[count].nx = x;
-                c[count].ny = y;
-                c[count].nz = z;
+                c[count].nx = 0;
+                c[count].ny = 0;
+                c[count].nz = 0;
                 c[count].rot_x = 0;
                 c[count].rot_y = 0;
                 c[count].rot_z = 0;
@@ -132,8 +132,14 @@ void timery(int value)
 void rotationZ(int low, int high, int dir)
 {
     int i;
+
     for (i = low; i < high; i++)
     {
+        if (c[i].nz == 99)
+            glTranslatef(c[i].x, c[i].y, c[i].z);
+        else
+            glTranslatef(-c[i].x, -c[i].y, -c[i].z);
+
         c[i].now_z += dir * 2.0;
         glRotatef(c[i].now_z, 0, 0, 1);
         //glRotatef(c[i].rot_z, 0, 0, 1);
@@ -172,7 +178,6 @@ void drawcube(int i)
 
     if (c[i].nz == 99 && animate == 0)
     {
-
         glTranslatef(c[i].x, c[i].y, c[i].z);
         glRotatef(c[i].rot_z, 0, 0, 1);
         glTranslatef(-c[i].x, -c[i].y, -c[i].z);
@@ -212,7 +217,7 @@ void drawcube(int i)
         glTranslatef(-c[i].x, -c[i].y, -c[i].z);
         glRotatef(c[i].now_x, 1, 0, 0);
     }
-
+    //printf("%f\t%f\n", c[i].ny, c[i].nz);
     glColor3fv(black);
     glBegin(GL_LINE_LOOP); //front face
     glVertex3f(c[i].x - d / 2, c[i].y + d / 2, c[i].z - d / 2);
@@ -386,6 +391,8 @@ void display(void)
 
     for (int i = 0; i < 27; i++)
         drawcube(i);
+
+    printf("----------------\n");
 
     glFlush();
     glutSwapBuffers();
