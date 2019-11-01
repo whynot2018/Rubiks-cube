@@ -17,10 +17,17 @@ int animate = 1, dir = 1, min = 0, max = 0;
 struct cube
 {
     float x, y, z;
-    float nx, ny, nz;
-    int rot_x, rot_y, rot_z;
-    int now_x, now_y, now_z;
+    // float nx, ny, nz;
+    // int rot_x, rot_y, rot_z;
+    // int now_x, now_y, now_z;
 };
+
+struct rotate
+{
+    float x, y, z;
+};
+
+struct rotate r[9];
 
 struct cube c[27];
 void rotationZ(int, int, int);
@@ -49,20 +56,20 @@ void fillstruct()
                 c[count].x = x;
                 c[count].y = y;
                 c[count].z = z;
-                c[count].nx = x;
-                c[count].ny = y;
-                c[count].nz = z;
-                c[count].rot_x = 0;
-                c[count].rot_y = 0;
-                c[count].rot_z = 0;
-                c[count].now_x = 0;
-                c[count].now_y = 0;
-                c[count].now_z = 0;
+                // c[count].nx = x;
+                // c[count].ny = y;
+                // c[count].nz = z;
+                // c[count].rot_x = 0;
+                // c[count].rot_y = 0;
+                // c[count].rot_z = 0;
+                // c[count].now_x = 0;
+                // c[count].now_y = 0;
+                // c[count].now_z = 0;
                 count++;
             }
 }
 
-void updateZ(int low, int high, int dir)
+/*void updateZ(int low, int high, int dir)
 {
     printf("Inside updateZ\n");
     glPushMatrix();
@@ -101,6 +108,7 @@ void updateY(int low, int high)
     glutPostRedisplay();
     //printf("--------------\n");
 }
+
 
 void timerz(int value)
 {
@@ -160,7 +168,40 @@ void rotationY(int low, int high, int dir)
     if ((c[high - 1].now_y % 90) == 0.0)
         animate = 0;
 }
+*/
 
+void update(int x, int y, int z)
+{
+    fillstruct();
+    for (int i = 0; i < 27; i++)
+    {
+        if (c[i].z == 1)
+        {
+            c[i].x = x;
+            c[i].y = y;
+            c[i].z = z;
+        }
+    }
+}
+
+void rotateZ()
+{
+    for (int i = 0; i < 27; i++)
+    {
+        if (c[i].z == 1)
+        {
+            r[i].x = c[i].x;
+            r[i].y = c[i].y;
+            r[i].z = c[i].z;
+
+            glRotatef(90, 0, 0, 1);
+            glTranslatef(r[i].x, r[i].y, r[i].z);
+            printf("%d\t%f\t%f\t%f\n", i, r[i].x, r[i].y, r[i].z);
+            update(r[i].x, r[i].y, r[i].z);
+        }
+    }
+    printf("-----------------\n");
+}
 //Drawing the single cube
 void drawcube(int i)
 {
@@ -170,47 +211,47 @@ void drawcube(int i)
     glRotatef(20, 1, 0, 0);
     glRotatef(30, 0, 1, 0);
 
-    if (c[i].nz == 99 && animate == 0)
-    {
-        glTranslatef(c[i].x, c[i].y, c[i].z);
-        glRotatef(c[i].rot_z, 0, 0, 1);
-        glTranslatef(-c[i].x, -c[i].y, -c[i].z);
-    }
-    else
-    {
-        glTranslatef(c[i].x, c[i].y, c[i].z);
-        glRotatef(c[i].rot_z, 0, 0, 1);
-        glTranslatef(-c[i].x, -c[i].y, -c[i].z);
-        glRotatef(c[i].now_z, 0, 0, 1);
-    }
+    // if (c[i].nz == 99 && animate == 0)
+    // {
+    //     glTranslatef(c[i].x, c[i].y, c[i].z);
+    //     glRotatef(c[i].rot_z, 0, 0, 1);
+    //     glTranslatef(-c[i].x, -c[i].y, -c[i].z);
+    // }
+    // else
+    // {
+    //     glTranslatef(c[i].x, c[i].y, c[i].z);
+    //     glRotatef(c[i].rot_z, 0, 0, 1);
+    //     glTranslatef(-c[i].x, -c[i].y, -c[i].z);
+    //     glRotatef(c[i].now_z, 0, 0, 1);
+    // }
 
-    if (c[i].ny == 99 && animate == 0)
-    {
-        glTranslatef(c[i].x, c[i].y, c[i].z);
-        glRotatef(c[i].rot_y, 0, 1, 0);
-        glTranslatef(-c[i].x, -c[i].y, -c[i].z);
-    }
-    else
-    {
-        glTranslatef(c[i].x, c[i].y, c[i].z);
-        glRotatef(c[i].rot_y, 0, 1, 0);
-        glTranslatef(-c[i].x, -c[i].y, -c[i].z);
-        glRotatef(c[i].now_y, 0, 1, 0);
-    }
+    // if (c[i].ny == 99 && animate == 0)
+    // {
+    //     glTranslatef(c[i].x, c[i].y, c[i].z);
+    //     glRotatef(c[i].rot_y, 0, 1, 0);
+    //     glTranslatef(-c[i].x, -c[i].y, -c[i].z);
+    // }
+    // else
+    // {
+    //     glTranslatef(c[i].x, c[i].y, c[i].z);
+    //     glRotatef(c[i].rot_y, 0, 1, 0);
+    //     glTranslatef(-c[i].x, -c[i].y, -c[i].z);
+    //     glRotatef(c[i].now_y, 0, 1, 0);
+    // }
 
-    if (c[i].nx == 99 && animate == 0)
-    {
-        glTranslatef(c[i].x, c[i].y, c[i].z);
-        glRotatef(c[i].rot_x, 1, 0, 0);
-        glTranslatef(-c[i].x, -c[i].y, -c[i].z);
-    }
-    else
-    {
-        glTranslatef(c[i].x, c[i].y, c[i].z);
-        glRotatef(c[i].rot_x, 1, 0, 0);
-        glTranslatef(-c[i].x, -c[i].y, -c[i].z);
-        glRotatef(c[i].now_x, 1, 0, 0);
-    }
+    // if (c[i].nx == 99 && animate == 0)
+    // {
+    //     glTranslatef(c[i].x, c[i].y, c[i].z);
+    //     glRotatef(c[i].rot_x, 1, 0, 0);
+    //     glTranslatef(-c[i].x, -c[i].y, -c[i].z);
+    // }
+    // else
+    // {
+    //     glTranslatef(c[i].x, c[i].y, c[i].z);
+    //     glRotatef(c[i].rot_x, 1, 0, 0);
+    //     glTranslatef(-c[i].x, -c[i].y, -c[i].z);
+    //     glRotatef(c[i].now_x, 1, 0, 0);
+    // }
 
     glColor3fv(black);
     glBegin(GL_LINE_LOOP); //front face
@@ -304,55 +345,6 @@ void drawcube(int i)
     glPopMatrix();
 }
 
-void select_color(int color_value)
-{
-    ry = 0;
-    rx = 0;
-    if (color_value == 2) // green
-    {
-        ry = (ry + 90) % 360;
-    }
-    else if (color_value == 3) //yellow
-    {
-        rx = (rx - 90) % 360;
-    }
-    else if (color_value == 4) //blue
-    {
-        ry = (ry - 90) % 360;
-    }
-    else if (color_value == 5) //white
-    {
-        rx = (rx + 90) % 360;
-    }
-    else if (color_value == 6) //orange
-    {
-        ry = (ry - 180) % 360;
-    }
-}
-
-// It tells which submenu is selected
-void menu(int val)
-{
-    if (val != 0)
-    {
-        color_value = val;
-        select_color(color_value);
-    }
-}
-
-//Used to create menubar
-void createmenu(void)
-{
-    glutCreateMenu(menu);
-    glutAddMenuEntry("Red", 1);
-    glutAddMenuEntry("Green", 2);
-    glutAddMenuEntry("Yellow", 3);
-    glutAddMenuEntry("Blue", 4);
-    glutAddMenuEntry("White", 5);
-    glutAddMenuEntry("Orange", 6);
-    glutAttachMenu(GLUT_RIGHT_BUTTON);
-}
-
 void reshape_func(GLsizei w, GLsizei h)
 {
     glClearColor(0.0, 0.0, 0.0, 1.0);
@@ -437,75 +429,76 @@ void keyboard_func(unsigned char key, int x, int y)
 
     case 'b':
         glPushMatrix();
-        rotationZ(0, 9, -1);
+        // rotationZ(0, 9, -1);
         min = 0;
         max = 9;
         dir = -1;
-        glutTimerFunc(0, timerz, 0);
+        //glutTimerFunc(0, timerz, 0);
         glPopMatrix();
         break;
 
     case 'B':
         glPushMatrix();
-        rotationZ(0, 9, 1);
+        //  rotationZ(0, 9, 1);
         min = 0;
         max = 9;
         dir = 1;
-        glutTimerFunc(0, timerz, 0);
+        // glutTimerFunc(0, timerz, 0);
         glPopMatrix();
         break;
 
     case 'c':
         glPushMatrix();
-        rotationZ(9, 18, -1);
+        //  rotationZ(9, 18, -1);
         min = 9;
         max = 18;
         dir = -1;
-        glutTimerFunc(0, timerz, 0);
+        // glutTimerFunc(0, timerz, 0);
         glPopMatrix();
         break;
 
     case 'C':
         // glPushMatrix();
-        rotationZ(9, 18, 1);
+        // rotationZ(9, 18, 1);
         min = 9;
         max = 18;
         dir = 1;
-        glutTimerFunc(0, timerz, 0);
+        //glutTimerFunc(0, timerz, 0);
         //  glPopMatrix();
         break;
 
     case 'f':
-        rotationZ(18, 27, -1);
-        min = 18;
-        max = 27;
-        dir = -1;
-        glutTimerFunc(0, timerz, 0);
+        rotateZ();
+        // rotationZ(18, 27, -1);
+        // min = 18;
+        // max = 27;
+        // dir = -1;
+        //  glutTimerFunc(0, timerz, 0);
         break;
 
     case 'F':
-        rotationZ(18, 27, 1);
+        // rotationZ(18, 27, 1);
         min = 18;
         max = 27;
         dir = 1;
-        glutTimerFunc(0, timerz, 0);
+        // glutTimerFunc(0, timerz, 0);
         break;
 
     case 't':
-        rotationY(6, 27, -1);
+        // rotationY(6, 27, -1);
         min = 6;
         max = 27;
         dir = -1;
-        glutTimerFunc(0, timery, 0);
+        // glutTimerFunc(0, timery, 0);
 
         break;
 
     case 'T':
-        rotationY(6, 27, 1);
+        // rotationY(6, 27, 1);
         min = 6;
         max = 27;
         dir = 1;
-        glutTimerFunc(0, timery, 0);
+        // glutTimerFunc(0, timery, 0);
         break;
 
     default:
@@ -514,27 +507,16 @@ void keyboard_func(unsigned char key, int x, int y)
     glutPostRedisplay();
 }
 
-void mouse_func(int button, int state, int x, int y)
-{
-    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
-    {
-        glRotatef(ry, 0, 1, 0);
-        glutPostRedisplay();
-    }
-}
-
 int main(int argc, char **argv)
 {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize(500, 500);
     glutCreateWindow("Rubix 3D");
-    createmenu();
     glutDisplayFunc(display);
 
     glutKeyboardFunc(&keyboard_func);
     glutReshapeFunc(reshape_func);
-    glutMouseFunc(&mouse_func);
     glutMainLoop();
     return 0;
 }
