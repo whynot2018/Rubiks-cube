@@ -185,35 +185,8 @@ void drawcube(int i)
 
     //glRotatef(20, 1, 0, 0);
     //glRotatef(30, 0, 1, 0);
-
-    if (c[i].nz == 99 && animate == 0)
-    {
-        glTranslatef(c[i].x, c[i].y, c[i].z);
-        glRotatef(c[i].rot_z, 0, 0, 1);
-        glTranslatef(-c[i].x, -c[i].y, -c[i].z);
-    }
-    else
-    {
-        glTranslatef(c[i].x, c[i].y, c[i].z);
-        glRotatef(c[i].rot_z, 0, 0, 1);
-         glTranslatef(-c[i].x, -c[i].y, -c[i].z);
-        glRotatef(c[i].now_z, 0, 0, 1);
-    }
-
-    if (c[i].ny == 99 && animate == 0)
-    {
-        glTranslatef(c[i].x, c[i].y, c[i].z);
-        glRotatef(c[i].rot_y, 0, 1, 0);
-        glTranslatef(-c[i].x, -c[i].y, -c[i].z);
-    }
-    else
-    {
-        glTranslatef(c[i].x, c[i].y, c[i].z);
-        glRotatef(c[i].rot_y, 0, 1, 0);
-        glTranslatef(-c[i].x, -c[i].y, -c[i].z);
-        glRotatef(c[i].now_y, 0, 1, 0);
-    }
-
+   
+ 
     if (c[i].nx == 99 && animate == 0)
     {
         glTranslatef(c[i].x, c[i].y, c[i].z);
@@ -222,11 +195,42 @@ void drawcube(int i)
     }
     else
     {
+        //glPushMatrix();
         glTranslatef(c[i].x, c[i].y, c[i].z);
         glRotatef(c[i].rot_x, 1, 0, 0);
         glTranslatef(-c[i].x, -c[i].y, -c[i].z);
         glRotatef(c[i].now_x, 1, 0, 0);
     }
+
+      
+    if (c[i].ny == 99 && animate == 0)
+    {
+        glTranslatef(c[i].x, c[i].y, c[i].z);
+        glRotatef(c[i].rot_y, 0, 1, 0);
+        glTranslatef(-c[i].x, -c[i].y, -c[i].z);
+    }
+    else
+    {
+        // glTranslatef(c[i].x, c[i].y, c[i].z);
+        // glRotatef(c[i].rot_y, 0, 1, 0);
+        // glTranslatef(-c[i].x, -c[i].y, -c[i].z);
+        glRotatef(c[i].now_y, 0, 1, 0);
+    }
+
+     if (c[i].nz == 99 && animate == 0)
+    {
+        glTranslatef(c[i].x, c[i].y, c[i].z);
+        glRotatef(c[i].rot_z, 0, 0, 1);
+        glTranslatef(-c[i].x, -c[i].y, -c[i].z);
+    }
+    else
+    {
+        // glTranslatef(c[i].x, c[i].y, c[i].z);
+        // glRotatef(c[i].rot_z, 0, 0, 1);
+        // glTranslatef(-c[i].x, -c[i].y, -c[i].z);
+        glRotatef(c[i].now_z, 0, 0, 1);
+    }
+
 
     glColor3fv(black);
     glBegin(GL_LINE_LOOP); //front face
@@ -417,38 +421,41 @@ void keyboard_func(unsigned char key, int x, int y)
         break;
 
     case 'a':
-        glPushMatrix();
-        glLoadIdentity();
+        animate = 0;
+        //glPushMatrix();
+        //glLoadIdentity();
         ry = (ry - 30) % 360;
-        glRotatef(ry, 0, 1, 0);
-        glPopMatrix();
+        //glPopMatrix();
         break;
 
     case 'd':
-        glPushMatrix();
-        glLoadIdentity();
-        glTranslatef(0, 0, 0);
+        animate = 0;
+        //glPushMatrix();
+        //glLoadIdentity();
+        //glTranslatef(0, 0, 0);
         ry = (ry + 30) % 360;
-        glRotatef(ry, 0, 1, 0);
-        glPopMatrix();
+        //glRotatef(ry, 0, 1, 0);
+        //glPopMatrix();
         break;
 
     case 'w':
-        glPushMatrix();
-        glLoadIdentity();
-        glTranslatef(0, 0, 0);
+        animate = 0;
+        //glPushMatrix();
+        //glLoadIdentity();
+        //glTranslatef(0, 0, 0);
         rx = (rx - 30) % 360;
-        glRotatef(rx, 1, 0, 0);
-        glPopMatrix();
+        //glRotatef(rx, 1, 0, 0);
+        //glPopMatrix();
         break;
 
     case 's':
-        glPushMatrix();
-        glLoadIdentity();
-        glTranslatef(0, 0, 0);
+         animate = 0;
+        //glPushMatrix();
+        //glLoadIdentity();
+        //glTranslatef(0, 0, 0);
         rx = (rx + 30) % 360;
-        glRotatef(rx, 1, 0, 0);
-        glPopMatrix();
+        //glRotatef(rx, 1, 0, 0);
+        //glPopMatrix();
         break;
 
     case 'b':
