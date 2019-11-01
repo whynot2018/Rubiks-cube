@@ -69,11 +69,16 @@ void updateZ(int low, int high, int dir)
     glPushMatrix();
     for (int i = low; i < high; i++)
     {
+        
         c[i].rot_z += c[i].now_z;
+        
         c[i].now_z += 90.0 * (-dir);
         glRotatef(c[i].now_z, 0, 0, 1);
         c[i].nz = 99; //random nos to identify rotated face
+        
     }
+    printf("%d, %d\n", c[low].now_z, c[low].rot_z);
+    //printf("%f, %f\n", c[low].now_z, c[low].rot_z);
     glPopMatrix();
     glutPostRedisplay();
 }
@@ -87,9 +92,10 @@ void updateY(int low, int high)
     for (int i = low; i < high;)
     {
         //  printf("y-before--->%d\t%d\t%d\t%d\n", i, c[i].rot_x, c[i].rot_y, c[i].rot_z);
-        c[i].rot_y += 90 * (-dir);
+        c[i].rot_y += c[i].now_y;
+        c[i].now_y += 90 * (-dir);
         glRotatef(c[i].rot_y, 0, -1, 0);
-        c[i].rot_y += 90 * dir;
+        
         c[i].ny = 99;
         if (count % 3 != 0)
             i++;
@@ -108,7 +114,7 @@ void timerz(int value)
     {
         rotationZ(min, max, dir);
         glutPostRedisplay();
-        glutTimerFunc(25, timerz, 0);
+        glutTimerFunc(1000/60, timerz, 0);
     }
     else
     {
@@ -146,18 +152,24 @@ void rotationY(int low, int high, int dir)
 {
     int i;
     int count = 1;
-    for (i = low; i < high;)
-    {
-        // printf("y---->%d\t%f\t%f\t%f\t%d\n", i, c[i].x, c[i].y, c[i].z, c[i].rot_y);
-        c[i].now_y += dir * 5.0;
-        glRotatef(c[i].rot_y, 0, 1, 0);
-        if (count % 3 != 0)
-            i++;
-        else
-            i += 7;
-        count++;
+
+    for(int i=low; i<=high-2; i+=9){
+            for(int j=i;j<i+3; j++){
+                        c[j].now_y+=1;
+            }
     }
-    if ((c[high - 1].now_y % 90) == 0.0)
+    // for (i = low; i < high;)
+    // {
+    //     // printf("y---->%d\t%f\t%f\t%f\t%d\n", i, c[i].x, c[i].y, c[i].z, c[i].rot_y);
+    //     c[i].now_y += dir * 5.0;
+    //    // glRotatef(c[i].now_y, 0, 1, 0);
+    //     if (count % 3 != 0)
+    //         i++;
+    //     else
+    //         i += 7;
+    //     count++;
+    // }
+    if ((c[low].now_y % 90) == 0.0)
         animate = 0;
 }
 
@@ -167,8 +179,8 @@ void drawcube(int i)
     glLineWidth(5);
     glPushMatrix();
 
-    glRotatef(20, 1, 0, 0);
-    glRotatef(30, 0, 1, 0);
+    //glRotatef(20, 1, 0, 0);
+    //glRotatef(30, 0, 1, 0);
 
     if (c[i].nz == 99 && animate==0)
     {
@@ -179,7 +191,7 @@ void drawcube(int i)
     else{
         glTranslatef(c[i].x, c[i].y, c[i].z);
         glRotatef(c[i].rot_z, 0, 0, 1);
-        glTranslatef(-c[i].x, -c[i].y, -c[i].z);
+         glTranslatef(-c[i].x, -c[i].y, -c[i].z);
         glRotatef(c[i].now_z, 0, 0, 1);
     }
     
