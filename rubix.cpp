@@ -101,11 +101,11 @@ void updateY(struct rotate r[])
 	printf("------------\n");
 }
 
-<<<<<<< HEAD
-void rotateYf(int min, int max){
+void rotateZf(int min, int max){
 
-        for(int i=min; i<=max-2; i+=9){
-            for(int j=i;j<i+3; j++){
+       
+            for(int j=0;j< 27; j++){
+				if(c[])
                         c[j].rotateY+=10;
 						if(c[j].rotateY %90 ==0){
 								float x= c[j].x;
@@ -125,47 +125,6 @@ void rotateYf(int min, int max){
         }
 
 		
-=======
-void rotateZf(int min, int max)
-{
-	int zz = 0;
-	for (int i = 0; i < 27; i++)
-	{
-		//printf("%d\t%f\t%f\t%f\n", i, c[i].x, c[i].y, c[i].z);
-		if (c[i].z == 1)
-		{
-			c[i].rotateZ += 10;
-			if (c[i].rotateZ % 90 == 0)
-			{
-				float x = c[i].x;
-				float y = c[i].y;
-				float z = c[i].z;
-
-				// c[i].x = x * cos(c[i].rotateZ * 3.146 / 180) - y * sin(c[i].rotateZ * 3.146 / 180);
-				// c[i].y = y * cos(c[i].rotateZ * 3.146 / 180) + x * sin(c[i].rotateZ * 3.146 / 180);
-
-				float xx = x * cos(c[i].rotateZ * 3.146 / 180) - y * sin(c[i].rotateZ * 3.146 / 180);
-				float yy = y * cos(c[i].rotateZ * 3.146 / 180) + x * sin(c[i].rotateZ * 3.146 / 180);
-				//glTranslatef(round(c[i].x), round(c[i].y), round(c[i].z));
-				glTranslatef(round(xx), round(yy), 1);
-				// c[i].x = round(c[i].x);
-				// c[i].y = round(c[i].y);
-				r[zz].x = round(xx);
-				r[zz].y = round(yy);
-				r[zz].z = 1;
-				zz++;
-				//printf("%d\t%f\t%f\n", i, c[i].x, c[i].y);
-				//printf("%d\t%f\t%f\n", i, r[i].x, r[i].y);
-			}
-			// if (i == 24)
-			// 	printf("front = 24=> %f, %f, %f, %f, %f, %f\n", x, y, z, c[24].x, c[24].y, c[24].z);
-		}
-	}
-	glutPostRedisplay();
-	if (c[26].rotateZ % 90 == 0)
-		updateZ(r);
-	//printf("----------------\n");
->>>>>>> cc401ad6389c114ff63baa957f47a48fde5115fc
 }
 
 void rotateYf(int min, int max)
@@ -181,7 +140,7 @@ void rotateYf(int min, int max)
 		if (c[j].y == 1)
 		{
 			//printf("%d\t%f\t%f\t%f\n", j, c[j].x, c[j].y, c[j].z);
-			c[j].rotateY += 10;
+			c[j].rotateY += 90;
 			if (c[j].rotateY % 90 == 0)
 			{
 				float x = c[j].x;
@@ -217,7 +176,7 @@ void rotateXf(int min, int max)
 	for (int i = min; i <= max; i += 3)
 	{
 
-		c[i].rotateX += 10;
+		c[i].rotateX += 90;
 
 		if (c[i].rotateX % 90 == 0)
 		{
