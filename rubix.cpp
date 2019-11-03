@@ -19,7 +19,7 @@ struct cube
 	float y, ny;
 	float z, nz;
 	int rotateX, rotateY, rotateZ;
-};
+}ac[27];
 struct cube c[27];
 
 const GLfloat colors[][3] =
@@ -50,12 +50,18 @@ void fillstruct()
 				c[count].x = x;
 				c[count].y = y;
 				c[count].z = z;
+				ac[count].x = x;
+				ac[count].y = y;
+				ac[count].z = z;
 				c[count].nx = x;
 				c[count].ny = y;
 				c[count].nz = z;
 				c[count].rotateX = 0;
 				c[count].rotateY = 0;
 				c[count].rotateZ = 0;
+				ac[count].rotateX = 0;
+				ac[count].rotateY = 0;
+				ac[count].rotateZ = 0;
 				// c[count].id = count;
 				count++;
 			}
@@ -101,33 +107,55 @@ void updateY(struct rotate r[])
 	printf("------------\n");
 }
 
-void rotateZf(int min, int max){
+void rotateZf(int min, int max, int z)
+{
+	int zz = 0;
+	for (int i = 0; i < 27; i++)
+	{
+		//printf("%d\t%f\t%f\t%f\n", i, c[i].x, c[i].y, c[i].z);
+		if (ac[i].z == z)
+		{
 
-       
-            for(int j=0;j< 27; j++){
-				if(c[])
-                        c[j].rotateY+=10;
-						if(c[j].rotateY %90 ==0){
-								float x= c[j].x;
-								float y= c[j].y;
-								float z= c[j].z;
+			
+			c[i].rotateZ += 10;
+			if (c[i].rotateZ % 90 == 0)
+			{
+				float x = ac[i].x;
+				float y = ac[i].y;
+				float z = ac[i].z;
 
-								c[j].x = x*cos(c[j].rotateY*3.146/180) + z*sin(c[j].rotateY*3.146/180);
-								c[j].z = z*cos(c[j].rotateY*3.146/180) - x*sin(c[j].rotateY*3.146/180);
-
-								c[j].x = round(c[j].x);
-								c[j].z = round(c[j].z);
-								if(j==24)
-									printf("top = 24=> %f, %f, %f, %f, %f, %f\n", x,y,z,c[24].x, c[24].y, c[24].z );
-								
-							}	
-            }
-        }
-
-		
+				ac[i].x = x * cos(90 * 3.146 / 180) - y * sin(90 * 3.146 / 180);
+				ac[i].y = y * cos(90 * 3.146 / 180) + x * sin(90 * 3.146 / 180);
+				ac[i].x = round(ac[i].x);
+				ac[i].y = round(ac[i].y);
+				if(ac[i].x == -0.000f)
+					ac[i].x=0.0f;
+				if(ac[i].y == -0.000f)
+					ac[i].y=0.0f;	
+			/*
+				float xx = x * cos(c[i].rotateZ * 3.146 / 180) - y * sin(c[i].rotateZ * 3.146 / 180);
+				float yy = y * cos(c[i].rotateZ * 3.146 / 180) + x * sin(c[i].rotateZ * 3.146 / 180);
+				//glTranslatef(round(c[i].x), round(c[i].y), round(c[i].z));
+				glTranslatef(round(xx), round(yy), 1);
+				
+				r[zz].x = round(xx);
+				r[zz].y = round(yy);
+				r[zz].z = 1;
+				zz++;
+				//printf("%d\t%f\t%f\n", i, c[i].x, c[i].y);
+				//printf("%d\t%f\t%f\n", i, r[i].x, r[i].y);*/
+			}
+			// if (i == 24)
+			// 	printf("front = 24=> %f, %f, %f, %f, %f, %f\n", x, y, z, c[24].x, c[24].y, c[24].z);
+		}
+		printf("\n");
+	}
+	glutPostRedisplay();
+	
+	//printf("----------------\n");
 }
 
-void rotateYf(int min, int max)
+void rotateYf(int min, int max, int y)
 {
 
 	// for (int i = min; i <= max - 2; i += 9)
@@ -137,19 +165,28 @@ void rotateYf(int min, int max)
 	int yy = 0;
 	for (int j = 0; j < 27; j++)
 	{
-		if (c[j].y == 1)
+		if (ac[j].y == y)
 		{
+			
 			//printf("%d\t%f\t%f\t%f\n", j, c[j].x, c[j].y, c[j].z);
-			c[j].rotateY += 90;
+			c[j].rotateY += 10;
 			if (c[j].rotateY % 90 == 0)
 			{
-				float x = c[j].x;
-				float y = c[j].y;
-				float z = c[j].z;
+				float x = ac[j].x;
+				float y = ac[j].y;
+				float z = ac[j].z;
 
-				// c[j].x = x * cos(c[j].rotateY * 3.146 / 180) + z * sin(c[j].rotateY * 3.146 / 180);
-				// c[j].z = z * cos(c[j].rotateY * 3.146 / 180) - x * sin(c[j].rotateY * 3.146 / 180);
-				float xx = x * cos(c[j].rotateY * 3.146 / 180) + z * sin(c[j].rotateY * 3.146 / 180);
+				ac[j].x = x * cos(90 * 3.146 / 180) + z * sin(90 * 3.146 / 180);
+				ac[j].z = z * cos(90 * 3.146 / 180) - x * sin(90* 3.146 / 180);
+				ac[j].x = round(ac[j].x);
+				ac[j].z = round(ac[j].z);
+
+				if(ac[j].x == -0.000f)
+					ac[j].x=0.0f;
+				if(ac[j].z == -0.000f)
+					ac[j].z=0.0f;	
+				
+				/*float xx = x * cos(c[j].rotateY * 3.146 / 180) + z * sin(c[j].rotateY * 3.146 / 180);
 				float zz = z * cos(c[j].rotateY * 3.146 / 180) - x * sin(c[j].rotateY * 3.146 / 180);
 
 				glTranslatef(round(xx), 1, round(zz));
@@ -159,36 +196,42 @@ void rotateYf(int min, int max)
 				r[yy].z = round(zz);
 				yy++;
 				//if (i == 24)
-				//	printf("top = 24=> %f, %f, %f, %f, %f, %f\n", x, y, z, c[24].x, c[24].y, c[24].z);
+				//	printf("top = 24=> %f, %f, %f, %f, %f, %f\n", x, y, z, c[24].x, c[24].y, c[24].z);*/
 			}
 		}
 	}
 	glutPostRedisplay();
-	if (c[26].rotateY % 90 == 0)
-		updateZ(r);
+	
 	///printf("----------------\n");
 }
 //}
 
-void rotateXf(int min, int max)
+void rotateXf(int min, int max, int x)
 {
 
-	for (int i = min; i <= max; i += 3)
+	for (int i = 0; i <= 27; i++)
 	{
+		if(ac[i].x == x){
+			printf("%d, %f, %f, %f\n", i,ac[i].x, ac[i].y, ac[i].z);
+			c[i].rotateX += 10;
 
-		c[i].rotateX += 90;
+			if (c[i].rotateX % 90 == 0)
+			{
+				float x = ac[i].x;
+				float y = ac[i].y;
+				float z = ac[i].z;
 
-		if (c[i].rotateX % 90 == 0)
-		{
-			float x = c[i].x;
-			float y = c[i].y;
-			float z = c[i].z;
+				ac[i].y = y * cos(90 * 3.146 / 180) - z * sin(90 * 3.146 / 180);
+				ac[i].z = z * cos(90 * 3.146 / 180) + y * sin(90 * 3.146 / 180);
 
-			c[i].y = y * cos(c[i].rotateX * 3.146 / 180) + z * sin(c[i].rotateX * 3.146 / 180);
-			c[i].z = z * cos(c[i].rotateX * 3.146 / 180) - y * sin(c[i].rotateX * 3.146 / 180);
+				ac[i].z = round(ac[i].z);
+				ac[i].y = round(ac[i].y);
 
-			c[i].z = round(c[i].z);
-			c[i].y = round(c[i].y);
+				if(ac[i].y == -0.000f)
+					ac[i].y=0.0f;
+				if(ac[i].z == -0.000f)
+					ac[i].z=0.0f;	
+			}
 		}
 	}
 }
@@ -204,8 +247,7 @@ void drawcube(int i)
 	glRotatef(c[i].rotateY, 0, 1, 0);
 	glRotatef(c[i].rotateZ, 0, 0, 1);
 	//glTranslatef(-c[i].x, -c[i].y, -c[i].z);
-	if(i==24 && c[i].rotateZ==90)
-		printf("\n%f, %f, %f\n", c[i].x, c[i].y, c[i].z);
+	
 
 	glColor3f(0, 0, 0);
 	glBegin(GL_LINE_LOOP); //front face
@@ -369,55 +411,55 @@ void specialkey(unsigned char key, int x, int y)
 		break;
 
 	case 'f':
-		rotateZf(18, 27); // 1 because rotation in z , so rotateF is 0,0,1 = 001= 1
+		rotateZf(18, 27, 1); // 1 because rotation in z , so rotateF is 0,0,1 = 001= 1
 		//glTranslatef(c[22].x, c[22].y, c[22].z );
 		//glutPostRedisplay();
 		break;
 
 	case 'm':
-		rotateZf(9, 18);
+		rotateZf(9, 18, 0);
 		//glTranslatef(0,0,0);
 		glutPostRedisplay();
 		break;
 
 	case 'b':
-		rotateZf(0, 9);
+		rotateZf(0, 9, -1);
 		//glTranslatef(c[4].x, c[4].y, c[4].z);
 		glutPostRedisplay();
 		break;
 
 	case 't':
-		rotateYf(6, 26);
+		rotateYf(6, 26, 1);
 		//glTranslatef(c[4].x, c[4].y, c[4].z);
 		//glutPostRedisplay();
 		break;
 
 	case 'c':
-		rotateYf(3, 23);
+		rotateYf(3, 23, 0);
 		//glTranslatef(c[4].x, c[4].y, c[4].z);
 		glutPostRedisplay();
 		break;
 
 	case 'v':
-		rotateYf(0, 20);
+		rotateYf(0, 20, -1);
 		//glTranslatef(c[4].x, c[4].y, c[4].z);
 		glutPostRedisplay();
 		break;
 
 	case 'r':
-		rotateXf(0, 24);
+		rotateXf(0, 24, -1);
 		//glTranslatef(c[4].x, c[4].y, c[4].z);
 		glutPostRedisplay();
 		break;
 
 	case 'l':
-		rotateXf(2, 26);
+		rotateXf(2, 26, 1);
 		//glTranslatef(c[4].x, c[4].y, c[4].z);
 		glutPostRedisplay();
 		break;
 
 	case 'x':
-		rotateXf(1, 25);
+		rotateXf(1, 25, 0);
 		//glTranslatef(c[4].x, c[4].y, c[4].z);
 		glutPostRedisplay();
 		break;
