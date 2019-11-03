@@ -104,7 +104,7 @@ void rotateYf(int min, int max){
 
 								c[j].x = round(c[j].x);
 								c[j].z = round(c[j].z);
-								if(i==24)
+								if(j==24)
 									printf("top = 24=> %f, %f, %f, %f, %f, %f\n", x,y,z,c[24].x, c[24].y, c[24].z );
 								
 							}	
@@ -151,6 +151,8 @@ void drawcube(int i)
     glRotatef(c[i].rotateY, 0, 1, 0);
     glRotatef(c[i].rotateZ, 0, 0, 1);
 	//glTranslatef(-c[i].x, -c[i].y, -c[i].z);
+	if(i==24 && c[i].rotateZ==90)
+		printf("\n%f, %f, %f\n", c[i].x, c[i].y, c[i].z);
 
 	glColor3f(0, 0, 0);
 	glBegin(GL_LINE_LOOP); //front face
