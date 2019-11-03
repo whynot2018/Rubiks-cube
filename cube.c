@@ -49,9 +49,9 @@ void fillstruct()
                 c[count].x = x;
                 c[count].y = y;
                 c[count].z = z;
-                c[count].nx = x;
-                c[count].ny = y;
-                c[count].nz = z;
+                c[count].nx = 0;
+                c[count].ny = 0;
+                c[count].nz = 0;
                 c[count].rot_x = 0;
                 c[count].rot_y = 0;
                 c[count].rot_z = 0;
@@ -68,13 +68,12 @@ void updateZ(int low, int high, int dir)
     glPushMatrix();
     for (int i = low; i < high; i++)
     {
-        
+
         c[i].rot_z += c[i].now_z;
-        
+
         c[i].now_z += 90.0 * (-dir);
         glRotatef(c[i].now_z, 0, 0, 1);
         c[i].nz = 99; //random nos to identify rotated face
-        
     }
     printf("%d, %d\n", c[low].now_z, c[low].rot_z);
     //printf("%f, %f\n", c[low].now_z, c[low].rot_z);
@@ -93,8 +92,7 @@ void updateY(int low, int high)
         //  printf("y-before--->%d\t%d\t%d\t%d\n", i, c[i].rot_x, c[i].rot_y, c[i].rot_z);
         c[i].rot_y += c[i].now_y;
         c[i].now_y += 90 * (-dir);
-        glRotatef(c[i].now_y, 0, -1, 0);
-
+        glRotatef(c[i].now_y, 0, 1, 0);
         c[i].ny = 99;
         if (count % 3 != 0)
             i++;
@@ -113,7 +111,7 @@ void timerz(int value)
     {
         rotationZ(min, max, dir);
         glutPostRedisplay();
-        glutTimerFunc(1000/60, timerz, 0);
+        glutTimerFunc(1000 / 60, timerz, 0);
     }
     else
     {
@@ -138,9 +136,16 @@ void timery(int value)
 void rotationZ(int low, int high, int dir)
 {
     int i;
+
     for (i = low; i < high; i++)
     {
-        c[i].now_z += dir * 1.0;
+        if (c[i].nz == 99)
+            glTranslatef(c[i].x, c[i].y, c[i].z);
+        else
+            glTranslatef(-c[i].x, -c[i].y, -c[i].z);
+
+        c[i].now_z += dir * 2.0;
+        glRotatef(c[i].now_z, 0, 0, 1);
         //glRotatef(c[i].rot_z, 0, 0, 1);
     }
     if ((c[high - 1].now_z % 90) == 0.0)
@@ -154,7 +159,7 @@ void rotationY(int low, int high, int dir)
     for (i = low; i < high;)
     {
         // printf("y---->%d\t%f\t%f\t%f\t%d\n", i, c[i].x, c[i].y, c[i].z, c[i].rot_y);
-        c[i].now_y += dir * 1.0;
+        c[i].now_y += dir * 2.0;
         glRotatef(c[i].now_y, 0, 1, 0);
         if (count % 3 != 0)
             i++;
@@ -185,8 +190,7 @@ void drawcube(int i)
 
     //glRotatef(20, 1, 0, 0);
     //glRotatef(30, 0, 1, 0);
-   
- 
+
     if (c[i].nx == 99 && animate == 0)
     {
         glTranslatef(c[i].x, c[i].y, c[i].z);
@@ -202,7 +206,6 @@ void drawcube(int i)
         glRotatef(c[i].now_x, 1, 0, 0);
     }
 
-      
     if (c[i].ny == 99 && animate == 0)
     {
         glTranslatef(c[i].x, c[i].y, c[i].z);
@@ -217,7 +220,7 @@ void drawcube(int i)
         glRotatef(c[i].now_y, 0, 1, 0);
     }
 
-     if (c[i].nz == 99 && animate == 0)
+    if (c[i].nz == 99 && animate == 0)
     {
         glTranslatef(c[i].x, c[i].y, c[i].z);
         glRotatef(c[i].rot_z, 0, 0, 1);
@@ -230,7 +233,6 @@ void drawcube(int i)
         // glTranslatef(-c[i].x, -c[i].y, -c[i].z);
         glRotatef(c[i].now_z, 0, 0, 1);
     }
-
 
     glColor3fv(black);
     glBegin(GL_LINE_LOOP); //front face
@@ -406,6 +408,8 @@ void display(void)
     for (int i = 0; i < 27; i++)
         drawcube(i);
 
+    printf("----------------\n");
+
     glFlush();
     glutSwapBuffers();
 }
@@ -449,7 +453,7 @@ void keyboard_func(unsigned char key, int x, int y)
         break;
 
     case 's':
-         animate = 0;
+        animate = 0;
         //glPushMatrix();
         //glLoadIdentity();
         //glTranslatef(0, 0, 0);
