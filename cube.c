@@ -68,13 +68,12 @@ void updateZ(int low, int high, int dir)
     glPushMatrix();
     for (int i = low; i < high; i++)
     {
-        
+
         c[i].rot_z += c[i].now_z;
-        
+
         c[i].now_z += 90.0 * (-dir);
         glRotatef(c[i].now_z, 0, 0, 1);
         c[i].nz = 99; //random nos to identify rotated face
-        
     }
     printf("%d, %d\n", c[low].now_z, c[low].rot_z);
     //printf("%f, %f\n", c[low].now_z, c[low].rot_z);
@@ -112,7 +111,7 @@ void timerz(int value)
     {
         rotationZ(min, max, dir);
         glutPostRedisplay();
-        glutTimerFunc(1000/60, timerz, 0);
+        glutTimerFunc(1000 / 60, timerz, 0);
     }
     else
     {
@@ -191,8 +190,7 @@ void drawcube(int i)
 
     //glRotatef(20, 1, 0, 0);
     //glRotatef(30, 0, 1, 0);
-   
- 
+
     if (c[i].nx == 99 && animate == 0)
     {
         glTranslatef(c[i].x, c[i].y, c[i].z);
@@ -208,7 +206,6 @@ void drawcube(int i)
         glRotatef(c[i].now_x, 1, 0, 0);
     }
 
-      
     if (c[i].ny == 99 && animate == 0)
     {
         glTranslatef(c[i].x, c[i].y, c[i].z);
@@ -223,7 +220,7 @@ void drawcube(int i)
         glRotatef(c[i].now_y, 0, 1, 0);
     }
 
-     if (c[i].nz == 99 && animate == 0)
+    if (c[i].nz == 99 && animate == 0)
     {
         glTranslatef(c[i].x, c[i].y, c[i].z);
         glRotatef(c[i].rot_z, 0, 0, 1);
@@ -236,12 +233,7 @@ void drawcube(int i)
         // glTranslatef(-c[i].x, -c[i].y, -c[i].z);
         glRotatef(c[i].now_z, 0, 0, 1);
     }
-<<<<<<< HEAD
-    //printf("%f\t%f\n", c[i].ny, c[i].nz);
-=======
 
-
->>>>>>> 0474d63b5490be6b620054de4a2d5c63d8a3a9d4
     glColor3fv(black);
     glBegin(GL_LINE_LOOP); //front face
     glVertex3f(c[i].x - d / 2, c[i].y + d / 2, c[i].z - d / 2);
@@ -461,7 +453,7 @@ void keyboard_func(unsigned char key, int x, int y)
         break;
 
     case 's':
-         animate = 0;
+        animate = 0;
         //glPushMatrix();
         //glLoadIdentity();
         //glTranslatef(0, 0, 0);

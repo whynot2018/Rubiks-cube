@@ -1,5 +1,6 @@
 #include <GL/glut.h>
 #include <stdio.h>
+#include <math.h>
 
 #define ESC 27
 #define ENTER 13
@@ -25,7 +26,7 @@ struct cube
 struct rotate
 {
     float x, y, z;
-    int rot_z, rot_x, rot_y;
+    // int rot_z, rot_x, rot_y;
 };
 
 struct rotate r[9];
@@ -48,15 +49,15 @@ float color[6][3] =
 void fillstruct()
 {
     int count = 0;
-    for (int z = -1; z <= 1; z++)
-
-        for (int y = -1; y <= 1; y++)
-
-            for (int x = -1; x <= 1; x++)
+    for (int zz = -1; zz < 2; zz++)
+    {
+        for (int yy = -1; yy < 2; yy++)
+        {
+            for (int xx = -1; xx < 2; xx++)
             {
-                c[count].x = x;
-                c[count].y = y;
-                c[count].z = z;
+                c[count].x = xx;
+                c[count].y = yy;
+                c[count].z = zz;
                 // c[count].nx = x;
                 // c[count].ny = y;
                 // c[count].nz = z;
@@ -68,6 +69,8 @@ void fillstruct()
                 // c[count].now_z = 0;
                 count++;
             }
+        }
+    }
 }
 
 /*void updateZ(int low, int high, int dir)
@@ -181,7 +184,7 @@ void update(struct rotate r[])
             c[i].x = r[i].x;
             c[i].y = r[i].y;
             c[i].z = r[i].z;
-            printf("%d\t%f\t%f\t%f\n", i, c[i].x, c[i].y, c[i].z);
+            //printf("%d\t%f\t%f\t%f\n", i, c[i].x, c[i].y, c[i].z);
         }
     }
     glutPostRedisplay();
@@ -192,20 +195,27 @@ void rotateZ()
 {
     for (int i = 0; i < 27; i++)
     {
+        // printf("%d\t%f\t%f\t%f\n", i, c[i].x, c[i].y, c[i].z);
         if (c[i].z == 1)
         {
-            r[i].x = c[i].x;
-            r[i].y = c[i].y;
-            r[i].z = 1;
-            r[i].rot_z = 1;
+            //printf("%d\t%f\t%f\t%f\n", i, c[i].x, c[i].y, c[i].z);
+            float x = c[i].x;
+            float y = c[i].y;
+            float z = c[i].z;
 
-            glRotatef(r[i].rot_z * 90, 0, 0, 1);
-            glTranslatef(r[i].x, r[i].y, r[i].z);
-            printf("%d\t%f\t%f\t%f\n", i, c[i].x, c[i].y, c[i].z);
+            x = x * cos(90 * 3.146 / 180) + y * sin(90 * 3.146 / 180);
+            y = y * cos(90 * 3.146 / 180) - x * sin(90 * 3.146 / 180);
+
+            printf("%d\t%f\t%f\t%f\n", i, round(x), round(y), round(z));
+            r[i].z = round(z);
+            r[i].x = round(x);
+            r[i].y = round(y);
+
+            //glTranslatef(r[i].x, r[i].y, r[i].z);
         }
     }
-    printf("-----------------\n");
     update(r);
+    printf("-----------------\n");
 }
 //Drawing the single cube
 void drawcube(int i)
@@ -215,48 +225,6 @@ void drawcube(int i)
 
     glRotatef(20, 1, 0, 0);
     glRotatef(30, 0, 1, 0);
-
-    // if (c[i].nz == 99 && animate == 0)
-    // {
-    //     glTranslatef(c[i].x, c[i].y, c[i].z);
-    //     glRotatef(c[i].rot_z, 0, 0, 1);
-    //     glTranslatef(-c[i].x, -c[i].y, -c[i].z);
-    // }
-    // else
-    // {
-    //     glTranslatef(c[i].x, c[i].y, c[i].z);
-    //     glRotatef(c[i].rot_z, 0, 0, 1);
-    //     glTranslatef(-c[i].x, -c[i].y, -c[i].z);
-    //     glRotatef(c[i].now_z, 0, 0, 1);
-    // }
-
-    // if (c[i].ny == 99 && animate == 0)
-    // {
-    //     glTranslatef(c[i].x, c[i].y, c[i].z);
-    //     glRotatef(c[i].rot_y, 0, 1, 0);
-    //     glTranslatef(-c[i].x, -c[i].y, -c[i].z);
-    // }
-    // else
-    // {
-    //     glTranslatef(c[i].x, c[i].y, c[i].z);
-    //     glRotatef(c[i].rot_y, 0, 1, 0);
-    //     glTranslatef(-c[i].x, -c[i].y, -c[i].z);
-    //     glRotatef(c[i].now_y, 0, 1, 0);
-    // }
-
-    // if (c[i].nx == 99 && animate == 0)
-    // {
-    //     glTranslatef(c[i].x, c[i].y, c[i].z);
-    //     glRotatef(c[i].rot_x, 1, 0, 0);
-    //     glTranslatef(-c[i].x, -c[i].y, -c[i].z);
-    // }
-    // else
-    // {
-    //     glTranslatef(c[i].x, c[i].y, c[i].z);
-    //     glRotatef(c[i].rot_x, 1, 0, 0);
-    //     glTranslatef(-c[i].x, -c[i].y, -c[i].z);
-    //     glRotatef(c[i].now_x, 1, 0, 0);
-    // }
 
     glColor3fv(black);
     glBegin(GL_LINE_LOOP); //front face
@@ -369,6 +337,9 @@ void reshape_func(GLsizei w, GLsizei h)
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     fillstruct();
+    // int i;
+    // for (i = 0; i < 27; i++)
+    //     printf("%d\t%f\t%f\t%f\n", i, c[i].x, c[i].y, c[i].z);
     glutPostRedisplay();
 } // reshape function
 
