@@ -12,14 +12,25 @@ int rot_x = 0, rot_y = 0, rot_z = 0;
 int whole = 0;
 
 // Structure to store the coordinates of the cube
+struct point
+{
+	float x, y, z;
+};
+
+struct face
+{
+	struct point p[4];
+};
 struct cube
 {
-	//int id;
-	float x, nx;
-	float y, ny;
-	float z, nz;
+
+	float x;
+	float y;
+	float z;
+	struct face f[6];
+
 	int rotateX, rotateY, rotateZ;
-} ac[27];
+};
 struct cube c[27];
 
 const GLfloat colors[][3] =
@@ -31,13 +42,6 @@ const GLfloat colors[][3] =
 		{1.0, 1.0, 0}, //yellow
 		{1.0, 1.0, 1},
 };
-//Used to fill the center of the cube in the structure format
-struct rotate
-{
-	float x, y, z;
-	int rotateX, rotateY, rotateZ;
-};
-struct rotate r[9];
 
 void fillstruct()
 {
@@ -51,313 +55,263 @@ void fillstruct()
 				c[count].x = x;
 				c[count].y = y;
 				c[count].z = z;
-				ac[count].x = x;
-				ac[count].y = y;
-				ac[count].z = z;
-				c[count].nx = x;
-				c[count].ny = y;
-				c[count].nz = z;
+
+				c[count].f[0].p[0].x = x - d / 2;
+				c[count].f[0].p[0].y = y + d / 2;
+				c[count].f[0].p[0].z = z - d / 2;
+
+				c[count].f[0].p[1].x = x - d / 2;
+				c[count].f[0].p[01].y = y - d / 2;
+				c[count].f[0].p[01].z = z - d / 2;
+
+				c[count].f[0].p[02].x = x + d / 2;
+				c[count].f[0].p[02].y = y - d / 2;
+				c[count].f[0].p[02].z = z - d / 2;
+
+				c[count].f[0].p[03].x = x + d / 2;
+				c[count].f[0].p[03].y = y + d / 2;
+				c[count].f[0].p[03].z = z - d / 2;
+				//////////////////////////////////////////////////////////////////////////////////////////////
+				c[count].f[01].p[0].x = x - d / 2;
+				c[count].f[01].p[0].y = y + d / 2;
+				c[count].f[01].p[0].z = z + d / 2;
+
+				c[count].f[01].p[1].x = x - d / 2;
+				c[count].f[01].p[01].y = y - d / 2;
+				c[count].f[01].p[01].z = z + d / 2;
+
+				c[count].f[01].p[02].x = x + d / 2;
+				c[count].f[01].p[02].y = y - d / 2;
+				c[count].f[01].p[02].z = z + d / 2;
+
+				c[count].f[01].p[03].x = x + d / 2;
+				c[count].f[01].p[03].y = y + d / 2;
+				c[count].f[01].p[03].z = z + d / 2;
+				////////////////////////////////////////////////////////////////////////////////////////////////////
+				c[count].f[02].p[0].x = x + d / 2;
+				c[count].f[02].p[0].y = y + d / 2;
+				c[count].f[02].p[0].z = z - d / 2;
+
+				c[count].f[02].p[1].x = x + d / 2;
+				c[count].f[02].p[01].y = y - d / 2;
+				c[count].f[02].p[01].z = z - d / 2;
+
+				c[count].f[02].p[02].x = x + d / 2;
+				c[count].f[02].p[02].y = y - d / 2;
+				c[count].f[02].p[02].z = z + d / 2;
+
+				c[count].f[02].p[03].x = x + d / 2;
+				c[count].f[02].p[03].y = y + d / 2;
+				c[count].f[02].p[03].z = z + d / 2;
+
+				///////////////////////////////////////////////////////////////////////////////////////////
+
+				c[count].f[03].p[0].x = x - d / 2;
+				c[count].f[03].p[0].y = y + d / 2;
+				c[count].f[03].p[0].z = z - d / 2;
+
+				c[count].f[03].p[1].x = x - d / 2;
+				c[count].f[03].p[01].y = y - d / 2;
+				c[count].f[03].p[01].z = z - d / 2;
+
+				c[count].f[03].p[02].x = x - d / 2;
+				c[count].f[03].p[02].y = y - d / 2;
+				c[count].f[03].p[02].z = z + d / 2;
+
+				c[count].f[03].p[03].x = x - d / 2;
+				c[count].f[03].p[03].y = y + d / 2;
+				c[count].f[03].p[03].z = z + d / 2;
+				//////////////////////////////////////////////////////////////////////////////////////
+				c[count].f[04].p[0].x = x - d / 2;
+				c[count].f[04].p[0].y = y - d / 2;
+				c[count].f[04].p[0].z = z - d / 2;
+
+				c[count].f[04].p[1].x = x - d / 2;
+				c[count].f[04].p[01].y = y - d / 2;
+				c[count].f[04].p[01].z = z + d / 2;
+
+				c[count].f[04].p[02].x = x + d / 2;
+				c[count].f[04].p[02].y = y - d / 2;
+				c[count].f[04].p[02].z = z + d / 2;
+
+				c[count].f[04].p[03].x = x + d / 2;
+				c[count].f[04].p[03].y = y - d / 2;
+				c[count].f[04].p[03].z = z - d / 2;
+				/////////////////////////////////////////////////////////////////////////////////
+				c[count].f[05].p[0].x = x - d / 2;
+				c[count].f[05].p[0].y = y + d / 2;
+				c[count].f[05].p[0].z = z - d / 2;
+
+				c[count].f[05].p[1].x = x - d / 2;
+				c[count].f[05].p[01].y = y + d / 2;
+				c[count].f[05].p[01].z = z + d / 2;
+
+				c[count].f[05].p[02].x = x + d / 2;
+				c[count].f[05].p[02].y = y + d / 2;
+				c[count].f[05].p[02].z = z + d / 2;
+
+				c[count].f[05].p[03].x = x + d / 2;
+				c[count].f[05].p[03].y = y + d / 2;
+				c[count].f[05].p[03].z = z - d / 2;
+
 				c[count].rotateX = 0;
 				c[count].rotateY = 0;
 				c[count].rotateZ = 0;
-				ac[count].rotateX = 0;
-				ac[count].rotateY = 0;
-				ac[count].rotateZ = 0;
-				// c[count].id = count;
+
 				count++;
 			}
 }
 
-void updateZ(struct rotate r[])
-{
-	//fillstruct();
-	int j = 2;
-	int k = j;
-	for (int i = 0; i < 27; i++)
-	{
-		if (c[i].z == 1)
-		{
-			printf("%d\t%f\t%f\t%f\n", i, c[i].x, c[i].y, c[i].z);
-			c[i].x = r[j].x;
-			c[i].y = r[j].y;
-			c[i].z = r[j].z;
-			//printf("%d\t%f\t%f\t%f\n", i, c[i].x, c[i].y, c[i].z);
-			if (j % 3 != 0)
-				j--;
-			else
-			{
-				k = k + 3;
-				j = k;
-			}
-		}
-	}
-	glutPostRedisplay();
-	printf("------------\n");
-}
-
-void updateY(struct rotate r[])
-{
-	//	fillstruct();
-	int j = 2;
-	int k = j;
-	for (int i = 0; i < 27; i++)
-	{
-		if (c[i].y == 1)
-		{
-			//printf("%d\t%f\t%f\t%f\n", i, c[i].x, c[i].y, c[i].z);
-			c[i].x = r[j].x;
-			c[i].y = r[j].y;
-			c[i].z = r[j].z;
-			printf("%d\t%f\t%f\t%f\n", i, c[i].x, c[i].y, c[i].z);
-			if (j % 3 != 0)
-				j--;
-			else
-			{
-				k = k + 3;
-				j = k;
-			}
-		}
-	}
-	glutPostRedisplay();
-	printf("------------\n");
-}
-
 void rotateZf(int min, int max, int z)
 {
-	int zz = 0;
+
 	for (int i = 0; i < 27; i++)
 	{
-		//printf("%d\t%f\t%f\t%f\n", i, c[i].x, c[i].y, c[i].z);
-		if (ac[i].z == z)
-		{
 
-			c[i].rotateZ += 90;
+		if (c[i].z == z)
+		{
+			c[i].rotateZ += 10;
+
+			for (int k = 0; k < 6; k++)
+			{
+				for (int l = 0; l < 4; l++)
+				{
+
+					float x = c[i].f[k].p[l].x;
+					float y = c[i].f[k].p[l].y;
+					float z = c[i].f[k].p[l].z;
+
+					c[i].f[k].p[l].x = x * cos(10 * 3.146 / 180) - y * sin(10 * 3.146 / 180);
+					c[i].f[k].p[l].y = y * cos(10 * 3.146 / 180) + x * sin(10 * 3.146 / 180);
+				}
+			}
+
 			if (c[i].rotateZ % 90 == 0)
 			{
-				float x = ac[i].x;
-				float y = ac[i].y;
-				float z = ac[i].z;
+				float x = c[i].x;
+				float y = c[i].y;
+				float z = c[i].z;
 
-				ac[i].x = x * cos(90 * 3.146 / 180) - y * sin(90 * 3.146 / 180);
-				ac[i].y = y * cos(90 * 3.146 / 180) + x * sin(90 * 3.146 / 180);
-				ac[i].x = round(ac[i].x);
-				ac[i].y = round(ac[i].y);
-				if (ac[i].x == -0.000f)
-					ac[i].x = 0.0f;
-				if (ac[i].y == -0.000f)
-					ac[i].y = 0.0f;
-				/*
-				float xx = x * cos(c[i].rotateZ * 3.146 / 180) - y * sin(c[i].rotateZ * 3.146 / 180);
-				float yy = y * cos(c[i].rotateZ * 3.146 / 180) + x * sin(c[i].rotateZ * 3.146 / 180);
-				//glTranslatef(round(c[i].x), round(c[i].y), round(c[i].z));
-				glTranslatef(round(xx), round(yy), 1);
-				
-				r[zz].x = round(xx);
-				r[zz].y = round(yy);
-				r[zz].z = 1;
-				zz++;
-				//printf("%d\t%f\t%f\n", i, c[i].x, c[i].y);
-				//printf("%d\t%f\t%f\n", i, r[i].x, r[i].y);*/
+				c[i].x = x * cos(90 * 3.146 / 180) - y * sin(90 * 3.146 / 180);
+				c[i].y = y * cos(90 * 3.146 / 180) + x * sin(90 * 3.146 / 180);
+				c[i].x = round(c[i].x);
+				c[i].y = round(c[i].y);
+				if (c[i].x == -0.000f)
+					c[i].x = 0.0f;
+				if (c[i].y == -0.000f)
+					c[i].y = 0.0f;
 			}
-			// if (i == 24)
-			// 	printf("front = 24=> %f, %f, %f, %f, %f, %f\n", x, y, z, c[24].x, c[24].y, c[24].z);
 		}
-		printf("\n");
 	}
 	glutPostRedisplay();
-
-	//printf("----------------\n");
 }
 
 void rotateYf(int min, int max, int y)
 {
-
-	// for (int i = min; i <= max - 2; i += 9)
-	// {
-	// 	for (int j = i; j < i + 3; j++)
-	// 	{
 	int yy = 0;
-	for (int j = 0; j < 27; j++)
+	for (int i = 0; i < 27; i++)
 	{
-		if (ac[j].y == y)
+		if (c[i].y == y)
 		{
-
-			//printf("%d\t%f\t%f\t%f\n", j, c[j].x, c[j].y, c[j].z);
-			c[j].rotateY += 90;
-			if (c[j].rotateY % 90 == 0)
+			c[i].rotateY += 10;
+			for (int k = 0; k < 6; k++)
 			{
-				float x = ac[j].x;
-				float y = ac[j].y;
-				float z = ac[j].z;
+				for (int l = 0; l < 4; l++)
+				{
 
-				ac[j].x = x * cos(90 * 3.146 / 180) + z * sin(90 * 3.146 / 180);
-				ac[j].z = z * cos(90 * 3.146 / 180) - x * sin(90 * 3.146 / 180);
-				ac[j].x = round(ac[j].x);
-				ac[j].z = round(ac[j].z);
+					float x = c[i].f[k].p[l].x;
+					float y = c[i].f[k].p[l].y;
+					float z = c[i].f[k].p[l].z;
 
-				if (ac[j].x == -0.000f)
-					ac[j].x = 0.0f;
-				if (ac[j].z == -0.000f)
-					ac[j].z = 0.0f;
+					c[i].f[k].p[l].x = x * cos(10 * 3.146 / 180) - z * sin(10 * 3.146 / 180);
+					c[i].f[k].p[l].z = z * cos(10 * 3.146 / 180) + x * sin(10 * 3.146 / 180);
+				}
+			}
 
-				/*float xx = x * cos(c[j].rotateY * 3.146 / 180) + z * sin(c[j].rotateY * 3.146 / 180);
-				float zz = z * cos(c[j].rotateY * 3.146 / 180) - x * sin(c[j].rotateY * 3.146 / 180);
+			if (c[i].rotateY % 90 == 0)
+			{
+				float x = c[i].x;
+				float y = c[i].y;
+				float z = c[i].z;
 
-				///	glTranslatef(round(xx), 1, round(zz));
-				//printf("%d\t%f\t%f\n", j, round(c[j].x), round(c[j].z));
-
-				// c[j].x = round(c[j].x);
-				// c[j].y = 1;
-				// c[j].z = round(c[j].z);
-				r[yy].x = round(xx);
-				r[yy].y = 1;
-				r[yy].z = round(zz);
-				yy++;
-				//printf("%d\t%f\t%f\t%f\n", j, c[j].x, c[j].y, c[j].z);
-				//if (i == 24)
-				//	printf("top = 24=> %f, %f, %f, %f, %f, %f\n", x, y, z, c[24].x, c[24].y, c[24].z);*/
+				c[i].x = x * cos(90 * 3.146 / 180) - z * sin(90 * 3.146 / 180);
+				c[i].z = z * cos(90 * 3.146 / 180) + x * sin(90 * 3.146 / 180);
+				c[i].x = round(c[i].x);
+				c[i].z = round(c[i].z);
+				if (c[i].x == -0.000f)
+					c[i].x = 0.0f;
+				if (c[i].z == -0.000f)
+					c[i].z = 0.0f;
 			}
 		}
+		glutPostRedisplay();
 	}
-	glutPostRedisplay();
-
-	///printf("----------------\n");
 }
-//}
 
 void rotateXf(int min, int max, int x)
 {
 
-	for (int i = 0; i <= 27; i++)
+	for (int i = 0; i < 27; i++)
 	{
-		if (ac[i].x == x)
+		if (c[i].x == x)
 		{
-			printf("%d, %f, %f, %f\n", i, ac[i].x, ac[i].y, ac[i].z);
 			c[i].rotateX += 10;
+			for (int k = 0; k < 6; k++)
+			{
+				for (int l = 0; l < 4; l++)
+				{
+
+					float x = c[i].f[k].p[l].x;
+					float y = c[i].f[k].p[l].y;
+					float z = c[i].f[k].p[l].z;
+
+					c[i].f[k].p[l].y = y * cos(10 * 3.146 / 180) - z * sin(10 * 3.146 / 180);
+					c[i].f[k].p[l].z = z * cos(10 * 3.146 / 180) + y * sin(10 * 3.146 / 180);
+				}
+			}
 
 			if (c[i].rotateX % 90 == 0)
 			{
-				float x = ac[i].x;
-				float y = ac[i].y;
-				float z = ac[i].z;
+				float x = c[i].x;
+				float y = c[i].y;
+				float z = c[i].z;
 
-				ac[i].y = y * cos(90 * 3.146 / 180) - z * sin(90 * 3.146 / 180);
-				ac[i].z = z * cos(90 * 3.146 / 180) + y * sin(90 * 3.146 / 180);
-
-				ac[i].z = round(ac[i].z);
-				ac[i].y = round(ac[i].y);
-
-				if (ac[i].y == -0.000f)
-					ac[i].y = 0.0f;
-				if (ac[i].z == -0.000f)
-					ac[i].z = 0.0f;
+				c[i].y = y * cos(90 * 3.146 / 180) - z * sin(90 * 3.146 / 180);
+				c[i].z = z * cos(90 * 3.146 / 180) + y * sin(90 * 3.146 / 180);
+				c[i].y = round(c[i].y);
+				c[i].z = round(c[i].z);
+				if (c[i].y == -0.000f)
+					c[i].y = 0.0f;
+				if (c[i].z == -0.000f)
+					c[i].z = 0.0f;
 			}
 		}
 	}
 }
-
 // Drawing the single cube
 void drawcube(int i)
 {
 	glLineWidth(5);
 	glPushMatrix();
 
-	//glTranslatef(c[i].x, c[i].y, c[i].z);
-	glRotatef(c[i].rotateX, 1, 0, 0);
-	glRotatef(c[i].rotateY, 0, 1, 0);
-	glRotatef(c[i].rotateZ, 0, 0, 1);
-	//glTranslatef(-c[i].x, -c[i].y, -c[i].z);
+	for (int j = 0; j < 6; j++)
+	{
+		glColor3f(0, 0, 0);
+		glBegin(GL_LINE_LOOP); //front face
+		glVertex3f(c[i].f[j].p[0].x, c[i].f[j].p[0].y, c[i].f[j].p[0].z);
+		glVertex3f(c[i].f[j].p[01].x, c[i].f[j].p[01].y, c[i].f[j].p[01].z);
+		glVertex3f(c[i].f[j].p[02].x, c[i].f[j].p[02].y, c[i].f[j].p[02].z);
+		glVertex3f(c[i].f[j].p[03].x, c[i].f[j].p[03].y, c[i].f[j].p[03].z);
+		glEnd();
 
-	glColor3f(0, 0, 0);
-	glBegin(GL_LINE_LOOP); //front face
-	glVertex3f(c[i].x - d / 2, c[i].y + d / 2, c[i].z - d / 2);
-	glVertex3f(c[i].x - d / 2, c[i].y - d / 2, c[i].z - d / 2);
-	glVertex3f(c[i].x + d / 2, c[i].y - d / 2, c[i].z - d / 2);
-	glVertex3f(c[i].x + d / 2, c[i].y + d / 2, c[i].z - d / 2);
-	glEnd();
-	glColor3fv(colors[0]); //Orange
-	glBegin(GL_QUADS);	 //front face
-	glVertex3f(c[i].x - d / 2, c[i].y + d / 2, c[i].z - d / 2);
-	glVertex3f(c[i].x - d / 2, c[i].y - d / 2, c[i].z - d / 2);
-	glVertex3f(c[i].x + d / 2, c[i].y - d / 2, c[i].z - d / 2);
-	glVertex3f(c[i].x + d / 2, c[i].y + d / 2, c[i].z - d / 2);
-	glEnd();
-
-	glColor3f(0, 0, 0);
-	glBegin(GL_LINE_LOOP); //back face
-	glVertex3f(c[i].x - d / 2, c[i].y + d / 2, c[i].z + d / 2);
-	glVertex3f(c[i].x - d / 2, c[i].y - d / 2, c[i].z + d / 2);
-	glVertex3f(c[i].x + d / 2, c[i].y - d / 2, c[i].z + d / 2);
-	glVertex3f(c[i].x + d / 2, c[i].y + d / 2, c[i].z + d / 2);
-	glEnd();
-	glColor3fv(colors[1]); //Red
-	glBegin(GL_QUADS);	 //back face
-	glVertex3f(c[i].x - d / 2, c[i].y + d / 2, c[i].z + d / 2);
-	glVertex3f(c[i].x - d / 2, c[i].y - d / 2, c[i].z + d / 2);
-	glVertex3f(c[i].x + d / 2, c[i].y - d / 2, c[i].z + d / 2);
-	glVertex3f(c[i].x + d / 2, c[i].y + d / 2, c[i].z + d / 2);
-	glEnd();
-
-	glColor3f(0, 0, 0);
-	glBegin(GL_LINE_LOOP); //left face
-	glVertex3f(c[i].x + d / 2, c[i].y + d / 2, c[i].z - d / 2);
-	glVertex3f(c[i].x + d / 2, c[i].y - d / 2, c[i].z - d / 2);
-	glVertex3f(c[i].x + d / 2, c[i].y - d / 2, c[i].z + d / 2);
-	glVertex3f(c[i].x + d / 2, c[i].y + d / 2, c[i].z + d / 2);
-	glEnd();
-	glColor3fv(colors[2]); //Blue
-	glBegin(GL_QUADS);	 //left face
-	glVertex3f(c[i].x + d / 2, c[i].y + d / 2, c[i].z - d / 2);
-	glVertex3f(c[i].x + d / 2, c[i].y - d / 2, c[i].z - d / 2);
-	glVertex3f(c[i].x + d / 2, c[i].y - d / 2, c[i].z + d / 2);
-	glVertex3f(c[i].x + d / 2, c[i].y + d / 2, c[i].z + d / 2);
-	glEnd();
-
-	glColor3f(0, 0, 0);
-	glBegin(GL_LINE_LOOP); //right face
-	glVertex3f(c[i].x - d / 2, c[i].y + d / 2, c[i].z - d / 2);
-	glVertex3f(c[i].x - d / 2, c[i].y - d / 2, c[i].z - d / 2);
-	glVertex3f(c[i].x - d / 2, c[i].y - d / 2, c[i].z + d / 2);
-	glVertex3f(c[i].x - d / 2, c[i].y + d / 2, c[i].z + d / 2);
-	glEnd();
-	glColor3fv(colors[3]); //Green
-	glBegin(GL_QUADS);	 //right face
-	glVertex3f(c[i].x - d / 2, c[i].y + d / 2, c[i].z - d / 2);
-	glVertex3f(c[i].x - d / 2, c[i].y - d / 2, c[i].z - d / 2);
-	glVertex3f(c[i].x - d / 2, c[i].y - d / 2, c[i].z + d / 2);
-	glVertex3f(c[i].x - d / 2, c[i].y + d / 2, c[i].z + d / 2);
-	glEnd();
-
-	glColor3f(0, 0, 0);
-	glBegin(GL_LINE_LOOP); //top face
-	glVertex3f(c[i].x - d / 2, c[i].y - d / 2, c[i].z - d / 2);
-	glVertex3f(c[i].x - d / 2, c[i].y - d / 2, c[i].z + d / 2);
-	glVertex3f(c[i].x + d / 2, c[i].y - d / 2, c[i].z + d / 2);
-	glVertex3f(c[i].x + d / 2, c[i].y - d / 2, c[i].z - d / 2);
-	glEnd();
-	glColor3fv(colors[4]); // Yellow
-	glBegin(GL_QUADS);	 //top face
-	glVertex3f(c[i].x - d / 2, c[i].y - d / 2, c[i].z - d / 2);
-	glVertex3f(c[i].x - d / 2, c[i].y - d / 2, c[i].z + d / 2);
-	glVertex3f(c[i].x + d / 2, c[i].y - d / 2, c[i].z + d / 2);
-	glVertex3f(c[i].x + d / 2, c[i].y - d / 2, c[i].z - d / 2);
-	glEnd();
-
-	glColor3f(0, 0, 0);
-	glBegin(GL_LINE_LOOP); //bottom face
-	glVertex3f(c[i].x - d / 2, c[i].y + d / 2, c[i].z - d / 2);
-	glVertex3f(c[i].x - d / 2, c[i].y + d / 2, c[i].z + d / 2);
-	glVertex3f(c[i].x + d / 2, c[i].y + d / 2, c[i].z + d / 2);
-	glVertex3f(c[i].x + d / 2, c[i].y + d / 2, c[i].z - d / 2);
-	glEnd();
-	glColor3fv(colors[5]); //White
-	glBegin(GL_QUADS);	 //bottom face
-	glVertex3f(c[i].x - d / 2, c[i].y + d / 2, c[i].z - d / 2);
-	glVertex3f(c[i].x - d / 2, c[i].y + d / 2, c[i].z + d / 2);
-	glVertex3f(c[i].x + d / 2, c[i].y + d / 2, c[i].z + d / 2);
-	glVertex3f(c[i].x + d / 2, c[i].y + d / 2, c[i].z - d / 2);
-	glEnd();
-
+		glColor3fv(colors[j]); //Orange
+		glBegin(GL_QUADS);	 //front face
+		glVertex3f(c[i].f[j].p[0].x, c[i].f[j].p[0].y, c[i].f[j].p[0].z);
+		glVertex3f(c[i].f[j].p[01].x, c[i].f[j].p[01].y, c[i].f[j].p[01].z);
+		glVertex3f(c[i].f[j].p[02].x, c[i].f[j].p[02].y, c[i].f[j].p[02].z);
+		glVertex3f(c[i].f[j].p[03].x, c[i].f[j].p[03].y, c[i].f[j].p[03].z);
+		glEnd();
+	}
 	glPopMatrix();
 }
 
@@ -430,61 +384,41 @@ void specialkey(unsigned char key, int x, int y)
 		break;
 
 	case 'f':
-		rotateZf(18, 27, 1); // 1 because rotation in z , so rotateF is 0,0,1 = 001= 1
-		//glTranslatef(c[22].x, c[22].y, c[22].z );
-		//glutPostRedisplay();
+		rotateZf(18, 27, 1);
 		break;
 
 	case 'm':
 		rotateZf(9, 18, 0);
-		//glTranslatef(0,0,0);
-		glutPostRedisplay();
 		break;
 
 	case 'b':
 		rotateZf(0, 9, -1);
-		//glTranslatef(c[4].x, c[4].y, c[4].z);
-		glutPostRedisplay();
 		break;
 
 	case 't':
 		rotateYf(6, 26, 1);
-		//glTranslatef(c[4].x, c[4].y, c[4].z);
-		//glutPostRedisplay();
 		break;
 
 	case 'c':
 		rotateYf(3, 23, 0);
-		//glTranslatef(c[4].x, c[4].y, c[4].z);
-		glutPostRedisplay();
 		break;
 
 	case 'v':
 		rotateYf(0, 20, -1);
-		//glTranslatef(c[4].x, c[4].y, c[4].z);
-		glutPostRedisplay();
 		break;
 
 	case 'r':
 		rotateXf(0, 24, -1);
-		//glTranslatef(c[4].x, c[4].y, c[4].z);
-		glutPostRedisplay();
 		break;
 
 	case 'l':
 		rotateXf(2, 26, 1);
-		//glTranslatef(c[4].x, c[4].y, c[4].z);
-		glutPostRedisplay();
+
 		break;
 
 	case 'x':
 		rotateXf(1, 25, 0);
-		//glTranslatef(c[4].x, c[4].y, c[4].z);
-		glutPostRedisplay();
 		break;
-
-	case 'g':
-		glPushMatrix();
 
 	default:
 		break;
