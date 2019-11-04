@@ -250,7 +250,6 @@ void rotateYf(int min, int max, int y)
 
 void rotateXf(int min, int max, int x)
 {
-
 	for (int i = 0; i < 27; i++)
 	{
 		if (c[i].x == x)
@@ -260,7 +259,6 @@ void rotateXf(int min, int max, int x)
 			{
 				for (int l = 0; l < 4; l++)
 				{
-
 					float x = c[i].f[k].p[l].x;
 					float y = c[i].f[k].p[l].y;
 					float z = c[i].f[k].p[l].z;
@@ -333,8 +331,6 @@ void display(void)
 
 	for (int i = 0; i < 27; i++)
 		drawcube(i);
-	// flush opengl commands
-	//glFlush();
 	glutSwapBuffers();
 }
 
@@ -347,7 +343,6 @@ void specialkey(unsigned char key, int x, int y)
 		break;
 
 	case 'a':
-
 		glPushMatrix();
 		glLoadIdentity();
 		glTranslatef(0, 0, 0);
@@ -428,7 +423,6 @@ void specialkey(unsigned char key, int x, int y)
 
 void init_func(void)
 {
-	//glViewport(0, 0, GLUT_WINDOW_WIDTH, GLUT_WINDOW_HEIGHT);
 	glClearColor(0.0, 0.0, 0.0, 1.0);
 	glMatrixMode(GL_PROJECTION);
 	glOrtho(-3, 3, -3, 3, -3, 3);
@@ -442,7 +436,6 @@ int main(int argc, char **argv)
 {
 	glutInit(&argc, argv);
 	glHint(GL_POINT_SMOOTH_HINT, GL_FALSE);
-
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(500, 500);
 	glutInitWindowPosition(0, 0);
