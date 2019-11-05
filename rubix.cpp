@@ -5,44 +5,46 @@
 
 #define ESC 27
 
-GLfloat fAspect;
-GLint angle, gap = 2; // Gap between each cube
-float d = 1;		  //width of the cube
+float d = 1; //width of the cube
 int rot_x = 0, rot_y = 0, rot_z = 0;
-int whole = 0;
+int dir = 1, x, y, z;
+int animate = 1;
 
-// Structure to store the coordinates of the cube
+// Structure to store x,y,z of the vertex of the cube
 struct point
 {
 	float x, y, z;
 };
 
+// Structure to store the coordinates of the face
 struct face
 {
 	struct point p[4];
 };
+
+// Structure to store the coordinates of center of the cube,face and rotation
 struct cube
 {
-
 	float x;
 	float y;
 	float z;
 	struct face f[6];
-
 	int rotateX, rotateY, rotateZ;
 };
 struct cube c[27];
 
+//Storing the colors
 const GLfloat colors[][3] =
 	{
-		{1.0, 0.5, 0},
-		{1.0, 0.0, 0},
-		{0.0, 0.0, 1},
-		{0.0, 1.0, 0},
-		{1.0, 1.0, 0}, //yellow
-		{1.0, 1.0, 1},
+		{1.0, 0.5, 0}, //Orange
+		{1.0, 0.0, 0}, //Red
+		{0.0, 0.0, 1}, // Blue
+		{0.0, 1.0, 0}, //Green
+		{1.0, 1.0, 0}, //Yellow
+		{1.0, 1.0, 1}, //White
 };
 
+// Fills the initial values all the structure
 void fillstruct()
 {
 	int count = 0;
@@ -162,7 +164,8 @@ void fillstruct()
 			}
 }
 
-void rotateZf(int min, int max, int z)
+// Used to rotote the face in Z-direction
+void rotateZf(int dir, int z)
 {
 
 	for (int i = 0; i < 27; i++)
@@ -181,8 +184,8 @@ void rotateZf(int min, int max, int z)
 					float y = c[i].f[k].p[l].y;
 					float z = c[i].f[k].p[l].z;
 
-					c[i].f[k].p[l].x = x * cos(10 * 3.146 / 180) - y * sin(10 * 3.146 / 180);
-					c[i].f[k].p[l].y = y * cos(10 * 3.146 / 180) + x * sin(10 * 3.146 / 180);
+					c[i].f[k].p[l].x = x * cos(10 * dir * 3.146 / 180) - y * sin(10 * dir * 3.146 / 180);
+					c[i].f[k].p[l].y = y * cos(10 * dir * 3.146 / 180) + x * sin(10 * dir * 3.146 / 180);
 				}
 			}
 
@@ -192,23 +195,36 @@ void rotateZf(int min, int max, int z)
 				float y = c[i].y;
 				float z = c[i].z;
 
-				c[i].x = x * cos(90 * 3.146 / 180) - y * sin(90 * 3.146 / 180);
-				c[i].y = y * cos(90 * 3.146 / 180) + x * sin(90 * 3.146 / 180);
+				c[i].x = x * cos(90 * dir * 3.146 / 180) - y * sin(90 * dir * 3.146 / 180);
+				c[i].y = y * cos(90 * dir * 3.146 / 180) + x * sin(90 * dir * 3.146 / 180);
 				c[i].x = round(c[i].x);
 				c[i].y = round(c[i].y);
 				if (c[i].x == -0.000f)
 					c[i].x = 0.0f;
 				if (c[i].y == -0.000f)
 					c[i].y = 0.0f;
+
+				animate = 0;
 			}
 		}
 	}
 	glutPostRedisplay();
 }
 
-void rotateYf(int min, int max, int y)
+// Used for the animation of the cubes
+void timerZ(int value)
 {
-	int yy = 0;
+	if (animate)
+	{
+		rotateZf(dir, z);
+		glutPostRedisplay();
+		glutTimerFunc(80, timerZ, value);
+	}
+}
+
+// Used to rotote the face in Y-direction
+void rotateYf(int dir, int y)
+{
 	for (int i = 0; i < 27; i++)
 	{
 		if (c[i].y == y)
@@ -218,13 +234,12 @@ void rotateYf(int min, int max, int y)
 			{
 				for (int l = 0; l < 4; l++)
 				{
-
 					float x = c[i].f[k].p[l].x;
 					float y = c[i].f[k].p[l].y;
 					float z = c[i].f[k].p[l].z;
 
-					c[i].f[k].p[l].x = x * cos(10 * 3.146 / 180) - z * sin(10 * 3.146 / 180);
-					c[i].f[k].p[l].z = z * cos(10 * 3.146 / 180) + x * sin(10 * 3.146 / 180);
+					c[i].f[k].p[l].x = x * cos(10 * dir * 3.146 / 180) - z * sin(10 * dir * 3.146 / 180);
+					c[i].f[k].p[l].z = z * cos(10 * dir * 3.146 / 180) + x * sin(10 * dir * 3.146 / 180);
 				}
 			}
 
@@ -234,21 +249,36 @@ void rotateYf(int min, int max, int y)
 				float y = c[i].y;
 				float z = c[i].z;
 
-				c[i].x = x * cos(90 * 3.146 / 180) - z * sin(90 * 3.146 / 180);
-				c[i].z = z * cos(90 * 3.146 / 180) + x * sin(90 * 3.146 / 180);
+				c[i].x = x * cos(90 * dir * 3.146 / 180) - z * sin(90 * dir * 3.146 / 180);
+				c[i].z = z * cos(90 * dir * 3.146 / 180) + x * sin(90 * dir * 3.146 / 180);
 				c[i].x = round(c[i].x);
 				c[i].z = round(c[i].z);
 				if (c[i].x == -0.000f)
 					c[i].x = 0.0f;
 				if (c[i].z == -0.000f)
 					c[i].z = 0.0f;
+
+				animate = 0;
 			}
 		}
+	}
+	glutPostRedisplay();
+}
+
+void timerY(int value)
+{
+	if (animate)
+	{
+		rotateYf(dir, y);
+		z = INT8_MIN;
+		x = INT8_MIN;
 		glutPostRedisplay();
+		glutTimerFunc(80, timerY, value);
 	}
 }
 
-void rotateXf(int min, int max, int x)
+// Rotate the face in X - direction
+void rotateXf(int dir, int x)
 {
 	for (int i = 0; i < 27; i++)
 	{
@@ -263,8 +293,8 @@ void rotateXf(int min, int max, int x)
 					float y = c[i].f[k].p[l].y;
 					float z = c[i].f[k].p[l].z;
 
-					c[i].f[k].p[l].y = y * cos(10 * 3.146 / 180) - z * sin(10 * 3.146 / 180);
-					c[i].f[k].p[l].z = z * cos(10 * 3.146 / 180) + y * sin(10 * 3.146 / 180);
+					c[i].f[k].p[l].y = y * cos(10 * dir * 3.146 / 180) - z * sin(10 * dir * 3.146 / 180);
+					c[i].f[k].p[l].z = z * cos(10 * dir * 3.146 / 180) + y * sin(10 * dir * 3.146 / 180);
 				}
 			}
 
@@ -274,37 +304,54 @@ void rotateXf(int min, int max, int x)
 				float y = c[i].y;
 				float z = c[i].z;
 
-				c[i].y = y * cos(90 * 3.146 / 180) - z * sin(90 * 3.146 / 180);
-				c[i].z = z * cos(90 * 3.146 / 180) + y * sin(90 * 3.146 / 180);
+				c[i].y = y * cos(90 * dir * 3.146 / 180) - z * sin(90 * dir * 3.146 / 180);
+				c[i].z = z * cos(90 * dir * 3.146 / 180) + y * sin(90 * dir * 3.146 / 180);
 				c[i].y = round(c[i].y);
 				c[i].z = round(c[i].z);
 				if (c[i].y == -0.000f)
 					c[i].y = 0.0f;
 				if (c[i].z == -0.000f)
 					c[i].z = 0.0f;
+
+				animate = 0;
 			}
 		}
 	}
+	glutPostRedisplay();
 }
-// Drawing the single cube
+
+void timerX(int value)
+{
+	if (animate)
+	{
+		rotateXf(dir, x);
+		glutPostRedisplay();
+		glutTimerFunc(80, timerX, value);
+	}
+}
+
+// Used to draw each cube
 void drawcube(int i)
 {
 	glLineWidth(5);
 	glPushMatrix();
 
+	glRotatef(20, 1, 0, 0);
+	glRotatef(30, 0, 1, 0);
+
 	for (int j = 0; j < 6; j++)
 	{
 		glColor3f(0, 0, 0);
-		glBegin(GL_LINE_LOOP); //front face
-		glVertex3f(c[i].f[j].p[0].x, c[i].f[j].p[0].y, c[i].f[j].p[0].z);
+		glBegin(GL_LINE_LOOP); //Drawing borders for the cube
+		glVertex3f(c[i].f[j].p[00].x, c[i].f[j].p[00].y, c[i].f[j].p[00].z);
 		glVertex3f(c[i].f[j].p[01].x, c[i].f[j].p[01].y, c[i].f[j].p[01].z);
 		glVertex3f(c[i].f[j].p[02].x, c[i].f[j].p[02].y, c[i].f[j].p[02].z);
 		glVertex3f(c[i].f[j].p[03].x, c[i].f[j].p[03].y, c[i].f[j].p[03].z);
 		glEnd();
 
-		glColor3fv(colors[j]); //Orange
-		glBegin(GL_QUADS);	 //front face
-		glVertex3f(c[i].f[j].p[0].x, c[i].f[j].p[0].y, c[i].f[j].p[0].z);
+		glColor3fv(colors[j]);
+		glBegin(GL_QUADS); //Drawing the cube
+		glVertex3f(c[i].f[j].p[00].x, c[i].f[j].p[00].y, c[i].f[j].p[00].z);
 		glVertex3f(c[i].f[j].p[01].x, c[i].f[j].p[01].y, c[i].f[j].p[01].z);
 		glVertex3f(c[i].f[j].p[02].x, c[i].f[j].p[02].y, c[i].f[j].p[02].z);
 		glVertex3f(c[i].f[j].p[03].x, c[i].f[j].p[03].y, c[i].f[j].p[03].z);
@@ -320,22 +367,23 @@ void reshape_func(GLsizei w, GLsizei h)
 
 void display(void)
 {
-
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 
-	glTranslatef(0, 0, 0);
 	glRotatef(rot_x, 1, 0, 0);
 	glRotatef(rot_y, 0, 1, 0);
 	glRotatef(rot_z, 0, 0, 1);
 
 	for (int i = 0; i < 27; i++)
 		drawcube(i);
+
 	glutSwapBuffers();
 }
 
-void specialkey(unsigned char key, int x, int y)
+// Used for handling keyboard values
+void specialkey(unsigned char key, int x1, int y1)
 {
+	animate = 1;
 	switch (key)
 	{
 	case ESC:
@@ -373,46 +421,126 @@ void specialkey(unsigned char key, int x, int y)
 		glPushMatrix();
 		glLoadIdentity();
 		glTranslatef(0, 0, 0);
-		rot_x = (rot_x + 20); //% 360;
+		rot_x = (rot_x + 20);
 		glRotatef(rot_x, 1, 0, 0);
 		glPopMatrix();
 		break;
 
 	case 'f':
-		rotateZf(18, 27, 1);
+		rotateZf(1, 1);
+		dir = 1;
+		z = 1;
+		glutTimerFunc(0, timerZ, 0);
+		break;
+	case 'F':
+		rotateZf(-1, 1);
+		dir = -1;
+		z = 1;
+		glutTimerFunc(0, timerZ, 0);
 		break;
 
 	case 'm':
-		rotateZf(9, 18, 0);
+		rotateZf(1, 0);
+		dir = 1;
+		z = 0;
+		glutTimerFunc(0, timerZ, 0);
+		break;
+	case 'M':
+		rotateZf(-1, 0);
+		dir = -1;
+		z = 0;
+		glutTimerFunc(0, timerZ, 0);
 		break;
 
 	case 'b':
-		rotateZf(0, 9, -1);
+		rotateZf(1, -1);
+		dir = 1;
+		z = -1;
+		glutTimerFunc(0, timerZ, 0);
+		break;
+	case 'B':
+		rotateZf(-1, -1);
+		dir = -1;
+		z = -1;
+		glutTimerFunc(0, timerZ, 0);
 		break;
 
 	case 't':
-		rotateYf(6, 26, 1);
+		rotateYf(1, 1);
+		dir = 1;
+		y = 1;
+		glutTimerFunc(0, timerY, 0);
+		break;
+	case 'T':
+		rotateYf(-1, 1);
+		dir = -1;
+		y = 1;
+		glutTimerFunc(0, timerY, 0);
 		break;
 
 	case 'c':
-		rotateYf(3, 23, 0);
+		rotateYf(1, 0);
+		dir = 1;
+		y = 0;
+		glutTimerFunc(0, timerY, 0);
+		break;
+	case 'C':
+		rotateYf(-1, 0);
+		dir = -1;
+		y = 0;
+		glutTimerFunc(0, timerY, 0);
 		break;
 
 	case 'v':
-		rotateYf(0, 20, -1);
+		rotateYf(1, -1);
+		dir = 1;
+		y = -1;
+		glutTimerFunc(0, timerY, 0);
+		break;
+	case 'V':
+		rotateYf(-1, -1);
+		dir = -1;
+		y = -1;
+		glutTimerFunc(0, timerY, 0);
 		break;
 
 	case 'r':
-		rotateXf(0, 24, -1);
+		rotateXf(1, -1);
+		dir = 1;
+		x = -1;
+		glutTimerFunc(0, timerX, 0);
+		break;
+	case 'R':
+		rotateXf(-1, -1);
+		dir = -1;
+		x = -1;
+		glutTimerFunc(0, timerX, 0);
 		break;
 
 	case 'l':
-		rotateXf(2, 26, 1);
-
+		rotateXf(1, 1);
+		dir = 1;
+		x = 1;
+		glutTimerFunc(0, timerX, 0);
+		break;
+	case 'L':
+		rotateXf(-1, 1);
+		dir = -1;
+		x = 1;
+		glutTimerFunc(0, timerX, 0);
 		break;
 
 	case 'x':
-		rotateXf(1, 25, 0);
+		rotateXf(1, 0);
+		dir = 1;
+		x = 0;
+		glutTimerFunc(0, timerX, 0);
+		break;
+	case 'X':
+		rotateXf(-1, 0);
+		dir = -1;
+		x = 0;
+		glutTimerFunc(0, timerX, 0);
 		break;
 
 	default:
@@ -430,6 +558,7 @@ void init_func(void)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	fillstruct();
+
 } // init
 
 int main(int argc, char **argv)
@@ -437,7 +566,7 @@ int main(int argc, char **argv)
 	glutInit(&argc, argv);
 	glHint(GL_POINT_SMOOTH_HINT, GL_FALSE);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-	glutInitWindowSize(500, 500);
+	glutInitWindowSize(700, 700);
 	glutInitWindowPosition(0, 0);
 	glutCreateWindow("Rubix 3D");
 	glutReshapeFunc(reshape_func);
