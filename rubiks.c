@@ -166,10 +166,8 @@ void fillstruct()
 // Used to rotote the face in Z-direction
 void rotateZf(int dir, int z)
 {
-
 	for (int i = 0; i < 27; i++)
 	{
-
 		if (c[i].z == z)
 		{
 			c[i].rotateZ += 10;
@@ -178,7 +176,6 @@ void rotateZf(int dir, int z)
 			{
 				for (int l = 0; l < 4; l++)
 				{
-
 					float x = c[i].f[k].p[l].x;
 					float y = c[i].f[k].p[l].y;
 					float z = c[i].f[k].p[l].z;
@@ -567,7 +564,7 @@ int main(int argc, char **argv)
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(700, 700);
 	glutInitWindowPosition(0, 0);
-	glutCreateWindow("Rubix 3D");
+	glutCreateWindow("Rubiks 3D");
 	glutReshapeFunc(reshape_func);
 	glutDisplayFunc(display);
 	glutKeyboardFunc(&specialkey);
