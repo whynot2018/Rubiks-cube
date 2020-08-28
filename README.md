@@ -13,18 +13,18 @@ This project is the simulation of 3D Rubiks cube which is done using _C_ and _Op
 
 This **Rubiks Cube** simulation is controlled using Keyboard. The different controls are -
 
-## Quitting the simulation
+### Quitting the simulation
 
 - `Esc` : Quits the simulation window
 
-## Rotation of Whole cube
+### Rotation of Whole cube
 
 - `a` : Rotates Left
 - `d` : Rotates Right
 - `w` : Rotates Up
 - `s` : Rotates Down
 
-## Rotation of sides of the cube by 90 degree
+### Rotation of sides of the cube by 90 degree
 
 - `t` : Rotates Top clockwise
 - `T` : Rotates Top anti-clockwise
