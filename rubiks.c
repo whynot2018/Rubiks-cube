@@ -21,7 +21,7 @@ struct face
 	struct point p[4];
 };
 
-// Structure to store the coordinates of center of the cube,face and rotation
+// Structure to store the coordinates of center of the cube, face and rotation
 struct cube
 {
 	float x;
@@ -35,15 +35,15 @@ struct cube c[27];
 //Storing the colors
 const GLfloat colors[][3] =
 	{
-		{1.0, 0.5, 0}, //Orange
-		{1.0, 0.0, 0}, //Red
+		{1.0, 0.5, 0}, // Orange
+		{1.0, 0.0, 0}, // Red
 		{0.0, 0.0, 1}, // Blue
-		{0.0, 1.0, 0}, //Green
-		{1.0, 1.0, 0}, //Yellow
-		{1.0, 1.0, 1}, //White
+		{0.0, 1.0, 0}, // Green
+		{1.0, 1.0, 0}, // Yellow
+		{1.0, 1.0, 1}, // White
 };
 
-// Fills the initial values all the structure
+// Fills the initial values in the structure
 void fillstruct()
 {
 	int count = 0;
@@ -138,7 +138,9 @@ void fillstruct()
 				c[count].f[04].p[03].x = x + d / 2;
 				c[count].f[04].p[03].y = y - d / 2;
 				c[count].f[04].p[03].z = z - d / 2;
+
 				/////////////////////////////////////////////////////////////////////////////////
+
 				c[count].f[05].p[0].x = x - d / 2;
 				c[count].f[05].p[0].y = y + d / 2;
 				c[count].f[05].p[0].z = z - d / 2;
@@ -163,7 +165,7 @@ void fillstruct()
 			}
 }
 
-// Used to rotote the face in Z-direction
+// Used to rotate the face in Z-direction
 void rotateZf(int dir, int z)
 {
 	for (int i = 0; i < 27; i++)
@@ -218,7 +220,7 @@ void timerZ(int value)
 	}
 }
 
-// Used to rotote the face in Y-direction
+// Used to rotate the face in Y-direction
 void rotateYf(int dir, int y)
 {
 	for (int i = 0; i < 27; i++)
@@ -273,7 +275,7 @@ void timerY(int value)
 	}
 }
 
-// Rotate the face in X - direction
+// Rotate the face in X-direction
 void rotateXf(int dir, int x)
 {
 	for (int i = 0; i < 27; i++)
