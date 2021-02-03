@@ -4,6 +4,7 @@ This project is the simulation of 3D Rubiks cube which is done using _C_ and _Op
 
 # Installation in Ubuntu
 
+- Install library `sudo apt-get install build-essential`
 - Install glut.h library `sudo apt-get install freeglut3-dev`
 - Install make `sudo apt-get install make`
 - Run `make`
